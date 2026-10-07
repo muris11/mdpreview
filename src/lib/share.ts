@@ -61,7 +61,10 @@ export function readShareFromHash(hash: string): SharePayload | null {
 
 /** Reads the document slug from a pathname like `/my-document-title`. */
 export function readSlugFromPath(pathname: string): string | null {
-  const segment = pathname.replace(/^\/+|\/+$/g, '').split('/').pop() ?? ''
+  const segments = pathname.replace(/^\/+|\/+$/g, '').split('/').filter(Boolean)
+  // Short links (`/s/<id>`) are resolved separately, not treated as a title.
+  if (segments[0] === 's') return null
+  const segment = segments.pop() ?? ''
   if (!segment) return null
   const decoded = decodeURIComponent(segment)
   // Ignore files/asset paths.
@@ -82,7 +85,7 @@ export function slugToTitle(slug: string): string {
  * Builds a share URL that carries the document title in the path and the
  * compressed content in the hash:
  *
- *   https://mdpreview.vercel.app/my-document-title#md=N4IgxgLg...
+ *   https://mdpreview.center.biz.id/my-document-title#md=N4IgxgLg...
  *
  * The path part makes the link readable and indexable, while the hash keeps
  * the actual content private (it is never sent to the server).

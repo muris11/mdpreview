@@ -137,6 +137,7 @@ async function main() {
     { name: 'favicon-32x32.png', size: 32, fill: 1 },
     { name: 'favicon-48x48.png', size: 48, fill: 0.98 },
     { name: 'apple-touch-icon.png', size: 180, fill: 0.9 },
+    { name: 'logo.png', size: 96, fill: 0.9 },
     { name: 'android-chrome-192x192.png', size: 192, fill: 0.88 },
     { name: 'android-chrome-512x512.png', size: 512, fill: 0.84 },
     { name: 'icon-512.png', size: 512, fill: 0.8 },

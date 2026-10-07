@@ -7,7 +7,6 @@ import {
   Eye,
   FileCode2,
   FileDown,
-  FileText,
   FolderOpen,
   Link2,
   Maximize2,
@@ -117,8 +116,14 @@ export function Toolbar(props: ToolbarProps) {
   return (
     <header className="no-print flex h-14 shrink-0 items-center gap-1 border-b border-ink-200 bg-white/80 px-2 backdrop-blur-md md:px-3 dark:border-ink-800 dark:bg-ink-900/80">
       <div className="flex items-center gap-2 pr-1">
-        <span className="grid h-8 w-8 place-items-center rounded-lg bg-linear-to-br from-brand-400 to-brand-600 text-white shadow-sm">
-          <FileText size={17} strokeWidth={2.4} />
+        <span className="grid h-8 w-8 shrink-0 place-items-center">
+          <img
+            src="/logo.png"
+            alt="MDPreview Center logo"
+            width={32}
+            height={32}
+            className="h-8 w-8 object-contain"
+          />
         </span>
         <span className="hidden text-sm font-semibold tracking-tight sm:block">
           MDPreview

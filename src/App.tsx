@@ -22,6 +22,7 @@ import {
   slugToTitle,
   titleToSlug,
 } from './lib/share'
+import { fetchShortLink, shortIdFromPath } from './lib/shortlink'
 import { storage, type Theme, type ViewMode } from './lib/storage'
 import {
   computeStats,
@@ -48,7 +49,7 @@ interface InitialDoc {
   fromShare: boolean
 }
 
-function loadInitialDoc(): InitialDoc {
+function loadInitialDoc(shortId: string | null): InitialDoc {
   const shared = readShareFromHash(window.location.hash)
   if (shared) {
     // Prefer the readable title from the URL path when present.
@@ -59,6 +60,10 @@ function loadInitialDoc(): InitialDoc {
       fromShare: true,
     }
   }
+  if (shortId) {
+    // Content is fetched asynchronously from the paste service (see below).
+    return { content: '', title: '', fromShare: true }
+  }
   const saved = storage.loadDoc()
   if (saved && typeof saved.content === 'string') {
     return { content: saved.content, title: saved.title || '', fromShare: false }
@@ -67,7 +72,11 @@ function loadInitialDoc(): InitialDoc {
 }
 
 export default function App() {
-  const initial = useMemo(() => loadInitialDoc(), [])
+  const initialShortId = useMemo(() => {
+    if (readShareFromHash(window.location.hash)) return null
+    return shortIdFromPath(window.location.pathname)
+  }, [])
+  const initial = useMemo(() => loadInitialDoc(initialShortId), [initialShortId])
 
   const [content, setContent] = useState(initial.content)
   const [title, setTitle] = useState(initial.title)
@@ -79,6 +88,8 @@ export default function App() {
   const [zen, setZen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [savedAt, setSavedAt] = useState<Date | null>(null)
+  /** True while a `/s/<id>` document is still downloading. */
+  const [loadingShort, setLoadingShort] = useState(initialShortId !== null)
 
   const { toasts, notify, dismiss } = useToasts()
   const debouncedContent = useDebouncedValue(content, 120)
@@ -93,23 +104,57 @@ export default function App() {
 
   // Persist document (debounced) and keep the tab title in sync.
   useEffect(() => {
+    // Don't clobber the local copy while a short link is still loading.
+    if (loadingShort) return
     const timer = window.setTimeout(() => {
       storage.saveDoc({ content, title })
       setSavedAt(new Date())
     }, 500)
     return () => window.clearTimeout(timer)
-  }, [content, title])
+  }, [content, title, loadingShort])
 
   // Dynamic SEO metadata for crawlers and social sharing.
   useEffect(() => {
     applySeo({ title, content })
   }, [title, content])
 
+  // Resolve a `/s/<id>` short link by downloading its document.
+  useEffect(() => {
+    if (!initialShortId) return
+    let cancelled = false
+    notify('Loading shared document…', 'info')
+    void (async () => {
+      const payload = await fetchShortLink(initialShortId)
+      if (cancelled) return
+      if (payload) {
+        setContent(payload.m)
+        setTitle(payload.t ?? slugToTitle(initialShortId))
+        notify('Shared document loaded')
+      } else {
+        notify('This short link is invalid or has expired', 'info')
+        const saved = storage.loadDoc()
+        if (saved && typeof saved.content === 'string') {
+          setContent(saved.content)
+          setTitle(saved.title || '')
+        } else {
+          setContent(SAMPLE_DOCUMENT)
+          setTitle('Welcome')
+        }
+      }
+      setLoadingShort(false)
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [initialShortId, notify])
+
   // Keep the address bar shareable: readable title slug in the path and the
   // compressed document in the hash, so copying the URL from the address bar
   // always produces a working share link. Debounced to avoid thrashing.
   useEffect(() => {
     if (typeof window === 'undefined') return
+    // Never rewrite the address bar while viewing a short link.
+    if (initialShortId || window.location.pathname.startsWith('/s/')) return
     const timer = window.setTimeout(() => {
       const slug = title.trim() ? titleToSlug(title) : ''
       const path = slug ? `/${slug}` : '/'
@@ -124,7 +169,7 @@ export default function App() {
       }
     }, 700)
     return () => window.clearTimeout(timer)
-  }, [content, title])
+  }, [content, title, initialShortId])
 
   // Theme persistence + <html> class + mermaid re-render trigger.
   useEffect(() => {

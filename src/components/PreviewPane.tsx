@@ -79,7 +79,7 @@ export function PreviewPane({
     >
       <div
         ref={resolvedBodyRef}
-        className="markdown-body mx-auto max-w-3xl"
+        className="markdown-body w-full max-w-none"
         spellCheck={false}
       />
     </div>

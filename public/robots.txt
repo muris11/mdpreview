@@ -1,4 +1,4 @@
-# MDPreview Center — https://mdpreview.vercel.app
+# MDPreview Center — https://mdpreview.center.biz.id
 
 User-agent: *
 Allow: /
@@ -7,8 +7,8 @@ Allow: /
 Disallow: /api/
 
 # Crawl-friendly
-Sitemap: https://mdpreview.vercel.app/sitemap.xml
-Host: https://mdpreview.vercel.app
+Sitemap: https://mdpreview.center.biz.id/sitemap.xml
+Host: https://mdpreview.center.biz.id
 
 # Common AI / search crawlers are explicitly welcome
 User-agent: Googlebot

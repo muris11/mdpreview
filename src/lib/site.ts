@@ -2,7 +2,7 @@
 export const SITE = {
   name: 'MDPreview Center',
   /** Fallback origin used before the runtime origin is known. */
-  fallbackUrl: 'https://mdpreview.vercel.app',
+  fallbackUrl: 'https://mdpreview.center.biz.id',
   tagline: 'Free online Markdown editor with live preview & shareable links',
   description:
     'Free online Markdown editor with instant live preview, Mermaid diagrams, KaTeX math, syntax highlighting and shareable links. Write, preview, export to PDF and share — no account required.',
