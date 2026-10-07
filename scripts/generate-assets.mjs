@@ -119,7 +119,10 @@ async function socialCard(logo) {
 
   return sharp(backdrop)
     .composite([{ input: mark, left: 20, top: 65 }])
-    .png()
+    // Palette PNG: the smooth gradient costs ~430 kB lossless but ~90 kB as
+    // 256 colours with dithering. Some preview crawlers get unreliable above
+    // ~300 kB, and nothing on this card needs more than 256 distinct colours.
+    .png({ palette: true, quality: 90, colours: 256, dither: 1 })
     .toBuffer()
 }
 
@@ -158,8 +161,9 @@ async function main() {
   await writeFile(join(publicDir, 'favicon.ico'), ico)
   console.log('✓ favicon.ico (16/32/48/64, transparent)')
 
-  await writeFile(join(publicDir, 'og-image.png'), await socialCard(logo))
-  console.log('✓ og-image.png (1200x630)')
+  const og = await socialCard(logo)
+  await writeFile(join(publicDir, 'og-image.png'), og)
+  console.log(`✓ og-image.png (1200x630, ${Math.round(og.length / 1024)} kB)`)
 }
 
 main().catch((error) => {
