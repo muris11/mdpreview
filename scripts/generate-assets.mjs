@@ -1,5 +1,11 @@
 // One-off asset generator — run with: node scripts/generate-assets.mjs
-// Produces favicons, PWA icons and a social preview image from public/icon.png.
+//
+// Produces TRANSPARENT favicons, PWA icons and a social preview image from
+// public/icon.png. The logo is:
+//   1. trimmed of its transparent padding,
+//   2. scaled to fill most of each square canvas, and
+//   3. given a soft drop shadow so it stays visible on light backgrounds
+//      (the icon contains white cards that would otherwise blend into white).
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -10,35 +16,78 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = join(root, 'public')
 const source = join(publicDir, 'icon.png')
 
-const BRAND = { from: '#1f9dff', to: '#0b7fe0' }
+const TRANSPARENT = { r: 0, g: 0, b: 0, alpha: 0 }
 
-/** Fits the logo into a square canvas with a solid background. */
-async function squareIcon(size, { padding = 0.1, background = '#ffffff' } = {}) {
-  const inner = Math.round(size * (1 - padding * 2))
-  const logo = await sharp(source)
-    .resize(inner, inner, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+/** Trimmed, tightly-cropped logo with a transparent background. */
+async function trimmedLogo() {
+  return sharp(source).trim({ threshold: 1 }).png().toBuffer()
+}
+
+function blank(size) {
+  return sharp({
+    create: { width: size, height: size, channels: 4, background: TRANSPARENT },
+  })
+}
+
+/**
+ * Fits the logo into a square canvas with a transparent background.
+ * `fill` is how much of the canvas the logo occupies (0..1).
+ * `shadow` adds a soft, subtle drop shadow for definition.
+ */
+async function squareIcon(logo, size, fill, shadow = true) {
+  const inner = Math.max(1, Math.round(size * fill))
+  const scaled = await sharp(logo)
+    .resize(inner, inner, { fit: 'contain', background: TRANSPARENT })
     .png()
     .toBuffer()
 
-  return sharp({
-    create: {
-      width: size,
-      height: size,
-      channels: 4,
-      background,
-    },
-  })
-    .composite([{ input: logo, gravity: 'center' }])
+  if (!shadow || size < 24) {
+    return blank(size)
+      .composite([{ input: scaled, gravity: 'center' }])
+      .png()
+      .toBuffer()
+  }
+
+  // Build a black silhouette of the logo, then blur it into a shadow.
+  const silhouette = await sharp(scaled)
+    .ensureAlpha()
+    .recomb([
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ])
+    .linear([1, 1, 1, 0.45], [0, 0, 0, 0])
+    .png()
+    .toBuffer()
+
+  const blur = Math.max(1.2, size * 0.028)
+  const offset = Math.max(1, Math.round(size * 0.02))
+
+  const shadowLayer = await sharp(
+    await blank(size)
+      .composite([{ input: silhouette, gravity: 'center' }])
+      .png()
+      .toBuffer(),
+  )
+    .blur(blur)
+    .png()
+    .toBuffer()
+
+  return blank(size)
+    .composite([
+      { input: shadowLayer, left: 0, top: offset },
+      { input: scaled, gravity: 'center' },
+    ])
     .png()
     .toBuffer()
 }
 
-/** Renders a 1200x630 Open Graph / Twitter card. */
-async function socialCard() {
+/** Renders a 1200x630 Open Graph / Twitter card (solid background is fine here). */
+async function socialCard(logo) {
   const width = 1200
   const height = 630
-  const logo = await sharp(source)
-    .resize(420, 420, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  const mark = await sharp(logo)
+    .resize(500, 500, { fit: 'contain', background: TRANSPARENT })
     .png()
     .toBuffer()
 
@@ -69,7 +118,7 @@ async function socialCard() {
   </svg>`)
 
   return sharp(backdrop)
-    .composite([{ input: logo, left: 60, top: 105 }])
+    .composite([{ input: mark, left: 20, top: 65 }])
     .png()
     .toBuffer()
 }
@@ -77,34 +126,39 @@ async function socialCard() {
 async function main() {
   await mkdir(publicDir, { recursive: true })
 
+  const logo = await trimmedLogo()
+  const meta = await sharp(logo).metadata()
+  console.log(`Trimmed logo: ${meta.width}x${meta.height} (transparent)\n`)
+
+  // `fill` = how much of the canvas the logo occupies. Small favicons go nearly
+  // edge-to-edge; larger app icons keep a little breathing room.
   const sizes = [
-    { name: 'favicon-16x16.png', size: 16, padding: 0.06 },
-    { name: 'favicon-32x32.png', size: 32, padding: 0.06 },
-    { name: 'favicon-48x48.png', size: 48, padding: 0.06 },
-    { name: 'apple-touch-icon.png', size: 180, padding: 0.1 },
-    { name: 'android-chrome-192x192.png', size: 192, padding: 0.1 },
-    { name: 'android-chrome-512x512.png', size: 512, padding: 0.1 },
-    { name: 'icon-512.png', size: 512, padding: 0.1 },
+    { name: 'favicon-16x16.png', size: 16, fill: 1 },
+    { name: 'favicon-32x32.png', size: 32, fill: 1 },
+    { name: 'favicon-48x48.png', size: 48, fill: 0.98 },
+    { name: 'apple-touch-icon.png', size: 180, fill: 0.9 },
+    { name: 'android-chrome-192x192.png', size: 192, fill: 0.88 },
+    { name: 'android-chrome-512x512.png', size: 512, fill: 0.84 },
+    { name: 'icon-512.png', size: 512, fill: 0.8 },
   ]
 
-  for (const { name, size, padding } of sizes) {
-    const buf = await squareIcon(size, { padding })
+  for (const { name, size, fill } of sizes) {
+    const buf = await squareIcon(logo, size, fill)
     await writeFile(join(publicDir, name), buf)
-    console.log(`✓ ${name} (${size}x${size})`)
+    console.log(`✓ ${name} (${size}px, transparent, logo ${Math.round(fill * 100)}%)`)
   }
 
   const ico = await pngToIco([
-    await squareIcon(16, { padding: 0.06 }),
-    await squareIcon(32, { padding: 0.06 }),
-    await squareIcon(48, { padding: 0.06 }),
+    await squareIcon(logo, 16, 1),
+    await squareIcon(logo, 32, 1),
+    await squareIcon(logo, 48, 0.98),
+    await squareIcon(logo, 64, 0.96),
   ])
   await writeFile(join(publicDir, 'favicon.ico'), ico)
-  console.log('✓ favicon.ico (16/32/48)')
+  console.log('✓ favicon.ico (16/32/48/64, transparent)')
 
-  await writeFile(join(publicDir, 'og-image.png'), await socialCard())
+  await writeFile(join(publicDir, 'og-image.png'), await socialCard(logo))
   console.log('✓ og-image.png (1200x630)')
-
-  console.log(`\nBrand gradient: ${BRAND.from} → ${BRAND.to}`)
 }
 
 main().catch((error) => {
