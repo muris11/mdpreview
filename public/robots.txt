@@ -1,0 +1,24 @@
+# MDPreview Center — https://mdpreview.vercel.app
+
+User-agent: *
+Allow: /
+
+# Block nothing essential; the whole site is a single public app.
+Disallow: /api/
+
+# Crawl-friendly
+Sitemap: https://mdpreview.vercel.app/sitemap.xml
+Host: https://mdpreview.vercel.app
+
+# Common AI / search crawlers are explicitly welcome
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /

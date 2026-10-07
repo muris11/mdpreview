@@ -1,5 +1,6 @@
 import hljsThemeLight from 'highlight.js/styles/github.css?raw'
 import katexCss from 'katex/dist/katex.min.css?raw'
+import { WATERMARK_TEXT, WATERMARK_URL } from './site'
 
 const HLJS_DARK_CSS = `
 .hljs{color:#c9d1d9;background:transparent}
@@ -21,7 +22,8 @@ const HLJS_DARK_CSS = `
 
 /**
  * Wraps rendered HTML into a standalone document with inlined styles so the
- * exported file looks right when opened offline.
+ * exported file looks right when opened offline. Includes an attribution
+ * watermark in the footer.
  */
 export function buildStandaloneHtml(
   title: string,
@@ -33,6 +35,7 @@ export function buildStandaloneHtml(
   const fg = isDark ? '#e6ecf7' : '#161e30'
   const codeBg = isDark ? '#0d1220' : '#f6f8fc'
   const border = isDark ? '#232e47' : '#dbe3f0'
+  const muted = isDark ? '#8b9cc0' : '#64749b'
 
   return `<!doctype html>
 <html lang="en"${isDark ? ' class="dark"' : ''}>
@@ -79,13 +82,21 @@ body {
 .markdown-body .mermaid { text-align: center; margin: 1em 0; }
 .markdown-body li.task-list-item { list-style: none; margin-left: -1.5em; }
 .markdown-body .anchor { display: none; }
-@media print { body { background: #fff; color: #000; } .markdown-body { padding: 0; } }
+.watermark {
+  max-width: 820px; margin: 0 auto; padding: 0 24px 48px;
+  color: ${muted}; font-size: 13px; text-align: center;
+}
+.watermark a { color: #0b7fe0; text-decoration: none; font-weight: 600; }
+@media print { body { background: #fff; color: #000; } .markdown-body { padding-bottom: 24px; } }
 </style>
 </head>
 <body>
 <article class="markdown-body">
 ${bodyHtml}
 </article>
+<footer class="watermark">
+  <a href="${WATERMARK_URL}" target="_blank" rel="noopener">${WATERMARK_TEXT}</a>
+</footer>
 </body>
 </html>`
 }

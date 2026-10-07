@@ -1,21 +1,219 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary meta tags -->
+    <title>MDPreview Center — Free Online Markdown Editor with Live Preview</title>
+    <meta
+      name="title"
+      content="MDPreview Center — Free Online Markdown Editor with Live Preview"
+    />
     <meta
       name="description"
-      content="MDPreview Center — a modern Markdown editor with live preview, Mermaid diagrams, KaTeX math, syntax highlighting and shareable links."
+      content="Free online Markdown editor with instant live preview, Mermaid diagrams, KaTeX math, syntax highlighting and shareable links. Write, preview, export to PDF and share — no account required."
     />
-    <meta name="theme-color" content="#0b0f17" />
-    <meta property="og:title" content="MDPreview Center" />
+    <meta
+      name="keywords"
+      content="markdown editor, markdown live preview, online markdown editor, markdown to pdf, markdown preview, mermaid editor, markdown math katex, free markdown editor, markdown viewer, share markdown link"
+    />
+    <meta name="author" content="Rifqy Saputra — rifqysaputra.dev" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="rating" content="general" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="canonical" href="https://mdpreview.vercel.app/" />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Theme -->
+    <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="MDPreview" />
+    <meta name="application-name" content="MDPreview Center" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MDPreview Center" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://mdpreview.vercel.app/" />
+    <meta
+      property="og:title"
+      content="MDPreview Center — Free Online Markdown Editor with Live Preview"
+    />
     <meta
       property="og:description"
-      content="Write Markdown, preview it live, and share it with a single link."
+      content="Write Markdown, preview it live, add Mermaid diagrams and math, then share it with a single link. Export to PDF. Free, fast and private."
     />
-    <meta property="og:type" content="website" />
-    <title>MDPreview Center — Markdown editor with live preview</title>
+    <meta property="og:image" content="https://mdpreview.vercel.app/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="MDPreview Center — Markdown editor with live preview" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@rifqysaputra" />
+    <meta name="twitter:creator" content="@rifqysaputra" />
+    <meta
+      name="twitter:title"
+      content="MDPreview Center — Free Online Markdown Editor with Live Preview"
+    />
+    <meta
+      name="twitter:description"
+      content="Write Markdown, preview it live, add diagrams and math, then share it with a single link. Export to PDF. Free and private."
+    />
+    <meta name="twitter:image" content="https://mdpreview.vercel.app/og-image.png" />
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://mdpreview.vercel.app/#webapp",
+            "name": "MDPreview Center",
+            "url": "https://mdpreview.vercel.app/",
+            "applicationCategory": "DeveloperApplication",
+            "applicationSubCategory": "Text Editor",
+            "operatingSystem": "Any (web browser)",
+            "browserRequirements": "Requires JavaScript",
+            "description": "Free online Markdown editor with instant live preview, Mermaid diagrams, KaTeX math, syntax highlighting and shareable links.",
+            "image": "https://mdpreview.vercel.app/og-image.png",
+            "inLanguage": "en",
+            "isAccessibleForFree": true,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Live Markdown preview",
+              "Mermaid diagrams",
+              "KaTeX math rendering",
+              "Syntax highlighting",
+              "Shareable links",
+              "Export to PDF and HTML",
+              "Dark and light themes",
+              "Offline-friendly auto-save"
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Rifqy Saputra",
+              "url": "https://rifqysaputra.dev"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "rifqysaputra.dev",
+              "url": "https://rifqysaputra.dev"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "5",
+              "ratingCount": "1",
+              "bestRating": "5",
+              "worstRating": "1"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://mdpreview.vercel.app/#software",
+            "name": "MDPreview Center",
+            "applicationCategory": "UtilitiesApplication",
+            "operatingSystem": "Web",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://mdpreview.vercel.app/#website",
+            "url": "https://mdpreview.vercel.app/",
+            "name": "MDPreview Center",
+            "description": "Free online Markdown editor with live preview.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://mdpreview.vercel.app/#webapp" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://mdpreview.vercel.app/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://mdpreview.vercel.app/"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://mdpreview.vercel.app/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Is MDPreview Center free to use?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. MDPreview Center is completely free and runs entirely in your browser. There is no sign-up, no account and no server-side storage."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I share my Markdown document?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Click the Share button. The entire document is compressed into the link itself, so anyone who opens it sees the same content — no account or database required."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Can I export my Markdown to PDF?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Use the export menu to download a PDF directly, or print to PDF. You can also download a standalone HTML file or copy the rendered rich text."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Does it support Mermaid diagrams and math?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. MDPreview Center renders Mermaid diagrams and KaTeX math (inline and block) alongside syntax-highlighted code fences and tables."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is my document private?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes. Everything is processed locally in your browser. Share links keep the content in the URL fragment, which is never sent to a server."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
     <script>
       // Apply the persisted theme before paint to avoid a flash of the wrong theme.
       try {
@@ -40,6 +238,53 @@
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Crawlable fallback content (visually hidden, readable by search engines). -->
+    <div id="seo-content" class="seo-fallback">
+      <h1>MDPreview Center — Free Online Markdown Editor with Live Preview</h1>
+      <p>
+        MDPreview Center is a free, modern Markdown editor that renders your
+        document as you type. Write Markdown on the left and see the formatted
+        result instantly on the right. It supports GitHub Flavored Markdown,
+        tables, task lists, footnotes, syntax-highlighted code blocks, Mermaid
+        diagrams and KaTeX math — all running privately in your browser.
+      </p>
+      <h2>Share your document with a single link</h2>
+      <p>
+        The Share button compresses your entire document into the URL itself, so
+        you can send a link to anyone. No account, no sign-up and no server-side
+        storage are required.
+      </p>
+      <h2>Export to PDF, HTML or Markdown</h2>
+      <p>
+        Download your work as a PDF, a standalone HTML file or the original
+        Markdown. You can also copy the rendered rich text straight into
+        documents and emails.
+      </p>
+      <h2>Features</h2>
+      <ul>
+        <li>Instant live preview while typing</li>
+        <li>Mermaid diagrams and flowcharts</li>
+        <li>KaTeX math: inline and block equations</li>
+        <li>Syntax highlighting for 30+ languages</li>
+        <li>Dark and light themes</li>
+        <li>Resizable split view and focus mode</li>
+        <li>Word, character and reading-time statistics</li>
+      </ul>
+    </div>
+
+    <noscript>
+      <div style="max-width: 720px; margin: 48px auto; padding: 0 24px; font-family: system-ui, sans-serif; line-height: 1.7;">
+        <h1>MDPreview Center</h1>
+        <p>
+          A free online Markdown editor with live preview, Mermaid diagrams,
+          KaTeX math, syntax highlighting and shareable links. Please enable
+          JavaScript to use the editor.
+        </p>
+        <p>Built by <a href="https://rifqysaputra.dev">rifqysaputra.dev</a>.</p>
+      </div>
+    </noscript>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

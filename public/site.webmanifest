@@ -1,0 +1,42 @@
+{
+  "name": "MDPreview Center — Markdown Editor",
+  "short_name": "MDPreview",
+  "description": "Free online Markdown editor with live preview, Mermaid diagrams, KaTeX math and shareable links.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0b0f17",
+  "theme_color": "#0b0f17",
+  "categories": ["productivity", "utilities", "developer"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "New document",
+      "short_name": "New",
+      "url": "/",
+      "description": "Start a blank Markdown document"
+    }
+  ]
+}

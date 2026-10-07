@@ -41,6 +41,7 @@ interface ToolbarProps {
   onOpenFile: () => void
   onDownloadMarkdown: () => void
   onDownloadHtml: () => void
+  onDownloadPdf: () => void
   onPrint: () => void
   onShare: () => void
   onReset: () => void
@@ -99,6 +100,7 @@ export function Toolbar(props: ToolbarProps) {
     onOpenFile,
     onDownloadMarkdown,
     onDownloadHtml,
+    onDownloadPdf,
     onPrint,
     onShare,
     onReset,
@@ -249,6 +251,14 @@ export function Toolbar(props: ToolbarProps) {
                   label="Download .html"
                   onClick={() => {
                     onDownloadHtml()
+                    setMenuOpen(false)
+                  }}
+                />
+                <MenuItem
+                  icon={<FileDown size={15} />}
+                  label="Download PDF"
+                  onClick={() => {
+                    onDownloadPdf()
                     setMenuOpen(false)
                   }}
                 />

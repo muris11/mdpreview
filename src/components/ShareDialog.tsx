@@ -1,6 +1,6 @@
 import { Check, Copy, ExternalLink, Link2, Share2, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
-import { buildShareUrl, encodeShare } from '../lib/share'
+import { buildShareUrl, encodeShare, titleToSlug } from '../lib/share'
 import { formatBytes } from '../lib/utils'
 
 interface ShareDialogProps {
@@ -54,6 +54,7 @@ function ShareDialogContent({
   )
 
   const tooLong = url.length > SAFE_URL_LENGTH
+  const slug = title ? titleToSlug(title) : ''
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -127,6 +128,27 @@ function ShareDialogContent({
             className="h-10 w-full min-w-0 rounded-lg border border-ink-200 bg-ink-50 px-3 font-mono text-xs text-ink-600 outline-none dark:border-ink-700 dark:bg-ink-950 dark:text-ink-300"
           />
         </div>
+
+        <p className="mb-3 text-xs text-ink-500 dark:text-ink-400">
+          {title ? (
+            <>
+              The link path uses your document title —{' '}
+              <code className="rounded bg-ink-100 px-1 py-0.5 font-mono text-[11px] text-brand-600 dark:bg-white/8 dark:text-brand-300">
+                /{slug}
+              </code>{' '}
+              — which helps it look clean and rank in search.
+            </>
+          ) : (
+            <>
+              💡 Give your document a <strong>title</strong> in the toolbar to get
+              a clean, readable link like{' '}
+              <code className="rounded bg-ink-100 px-1 py-0.5 font-mono text-[11px] dark:bg-white/8">
+                /my-document
+              </code>
+              .
+            </>
+          )}
+        </p>
 
         <div className="mb-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-500 dark:text-ink-400">
           <span>

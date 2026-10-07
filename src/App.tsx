@@ -6,12 +6,22 @@ import { SplitView } from './components/SplitView'
 import { StatusBar } from './components/StatusBar'
 import { ToastStack } from './components/ToastStack'
 import { Toolbar } from './components/Toolbar'
+import { Watermark } from './components/Watermark'
 import { useDebouncedValue } from './hooks/useDebouncedValue'
 import { useToasts } from './hooks/useToasts'
 import { buildStandaloneHtml, copyRichText } from './lib/export'
 import { renderMarkdown } from './lib/markdown'
+import { downloadPdf } from './lib/pdf'
 import { SAMPLE_DOCUMENT } from './lib/sample'
-import { readShareFromHash } from './lib/share'
+import { applySeo } from './lib/seo'
+import {
+  buildShareUrl,
+  encodeShare,
+  readShareFromHash,
+  readSlugFromPath,
+  slugToTitle,
+  titleToSlug,
+} from './lib/share'
 import { storage, type Theme, type ViewMode } from './lib/storage'
 import {
   computeStats,
@@ -41,9 +51,11 @@ interface InitialDoc {
 function loadInitialDoc(): InitialDoc {
   const shared = readShareFromHash(window.location.hash)
   if (shared) {
+    // Prefer the readable title from the URL path when present.
+    const pathSlug = readSlugFromPath(window.location.pathname)
     return {
       content: shared.m,
-      title: shared.t ?? 'Shared document',
+      title: shared.t ?? (pathSlug ? slugToTitle(pathSlug) : 'Shared document'),
       fromShare: true,
     }
   }
@@ -74,6 +86,8 @@ export default function App() {
   const scrollToEditor = useRef<((ratio: number) => void) | null>(null)
   const scrollToPreview = useRef<((ratio: number) => void) | null>(null)
   const syncingFrom = useRef<'editor' | 'preview' | null>(null)
+  /** Points at the rendered `.markdown-body` used for PDF export. */
+  const previewBodyRef = useRef<HTMLDivElement | null>(null)
 
   const stats: DocStats = useMemo(() => computeStats(content), [content])
 
@@ -86,11 +100,31 @@ export default function App() {
     return () => window.clearTimeout(timer)
   }, [content, title])
 
+  // Dynamic SEO metadata for crawlers and social sharing.
   useEffect(() => {
-    document.title = title
-      ? `${title} — MDPreview Center`
-      : 'MDPreview Center — Markdown editor with live preview'
-  }, [title])
+    applySeo({ title, content })
+  }, [title, content])
+
+  // Keep the address bar shareable: readable title slug in the path and the
+  // compressed document in the hash, so copying the URL from the address bar
+  // always produces a working share link. Debounced to avoid thrashing.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const timer = window.setTimeout(() => {
+      const slug = title.trim() ? titleToSlug(title) : ''
+      const path = slug ? `/${slug}` : '/'
+      const hash = `#md=${encodeShare({
+        m: content,
+        t: title || undefined,
+      })}`
+      const next = path + hash
+      const current = window.location.pathname + window.location.hash
+      if (current !== next) {
+        window.history.replaceState(null, '', next)
+      }
+    }, 700)
+    return () => window.clearTimeout(timer)
+  }, [content, title])
 
   // Theme persistence + <html> class + mermaid re-render trigger.
   useEffect(() => {
@@ -166,6 +200,22 @@ export default function App() {
     notify('HTML file downloaded')
   }, [content, filename, notify, theme, title])
 
+  const exportPdf = useCallback(async () => {
+    const source = previewBodyRef.current
+    if (!source) {
+      notify('Preview is not ready yet', 'info')
+      return
+    }
+    notify('Preparing PDF…', 'info')
+    try {
+      await downloadPdf({ title, theme, source })
+      notify('PDF downloaded')
+    } catch (error) {
+      console.error('PDF export failed', error)
+      notify('Could not generate the PDF', 'info')
+    }
+  }, [notify, theme, title])
+
   const printPreview = useCallback(() => {
     setView('preview')
     window.setTimeout(() => window.print(), 200)
@@ -187,7 +237,6 @@ export default function App() {
         const text = await file.text()
         setContent(text)
         setTitle(file.name.replace(/\.(md|markdown|txt)$/i, ''))
-        window.history.replaceState(null, '', window.location.pathname)
         notify(`Loaded ${file.name}`)
       } catch {
         notify('Could not read that file', 'info')
@@ -214,18 +263,35 @@ export default function App() {
     [loadFile],
   )
 
+  // Copy the share link directly (Ctrl/Cmd + Shift + L).
+  const copyShareLink = useCallback(async () => {
+    const url = buildShareUrl({ m: content, t: title || undefined })
+    try {
+      await navigator.clipboard.writeText(url)
+      notify('Share link copied')
+    } catch {
+      setShareOpen(true)
+    }
+  }, [content, title, notify])
+
   // Keyboard shortcuts.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const mod = e.ctrlKey || e.metaKey
       if (!mod) return
 
-      if (e.key === 's') {
+      if (e.key === 's' && e.shiftKey) {
+        e.preventDefault()
+        void exportPdf()
+      } else if (e.key === 's') {
         e.preventDefault()
         downloadMarkdown()
       } else if (e.key === 'k' && e.shiftKey) {
         e.preventDefault()
         setShareOpen(true)
+      } else if (e.key === 'l' && e.shiftKey) {
+        e.preventDefault()
+        void copyShareLink()
       } else if (e.key === 'b') {
         e.preventDefault()
         setView((v) =>
@@ -238,7 +304,7 @@ export default function App() {
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [downloadMarkdown])
+  }, [downloadMarkdown, exportPdf, copyShareLink])
 
   const savedLabel = savedAt
     ? `Saved locally at ${savedAt.toLocaleTimeString()}`
@@ -268,11 +334,10 @@ export default function App() {
         onCopyMarkdown={() => void copyMarkdown()}
         onCopyHtml={() => void copyHtml()}
         onCopyRich={() => void copyRich()}
-        onOpenFile={() =>
-          document.getElementById('file-input')?.click()
-        }
+        onOpenFile={() => document.getElementById('file-input')?.click()}
         onDownloadMarkdown={downloadMarkdown}
         onDownloadHtml={downloadHtml}
+        onDownloadPdf={() => void exportPdf()}
         onPrint={printPreview}
         onShare={() => setShareOpen(true)}
         onReset={resetDocument}
@@ -299,6 +364,7 @@ export default function App() {
                 theme={theme}
                 onScrollRatio={onPreviewScroll}
                 scrollToRatioRef={scrollToPreview}
+                bodyRef={previewBodyRef}
               />
             }
           />
@@ -310,11 +376,17 @@ export default function App() {
             onChange={setContent}
           />
         ) : (
-          <PreviewPane content={debouncedContent} theme={theme} />
+          <PreviewPane
+            content={debouncedContent}
+            theme={theme}
+            bodyRef={previewBodyRef}
+          />
         )}
       </main>
 
       {!zen && <StatusBar stats={stats} savedLabel={savedLabel} />}
+
+      <Watermark />
 
       <input
         id="file-input"

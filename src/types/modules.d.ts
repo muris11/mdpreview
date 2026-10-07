@@ -26,3 +26,4 @@ declare module 'markdown-it-texmath' {
   const plugin: MarkdownIt.PluginWithOptions<TexmathOptions>
   export default plugin
 }
+

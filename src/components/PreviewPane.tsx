@@ -11,6 +11,8 @@ interface PreviewPaneProps {
   onScrollRatio?: (ratio: number) => void
   /** Registers a callback so parents can imperatively scroll the preview. */
   scrollToRatioRef?: React.RefObject<((ratio: number) => void) | null>
+  /** Exposes the rendered `.markdown-body` element (used for PDF export). */
+  bodyRef?: React.RefObject<HTMLDivElement | null>
 }
 
 export function PreviewPane({
@@ -18,14 +20,16 @@ export function PreviewPane({
   theme,
   onScrollRatio,
   scrollToRatioRef,
+  bodyRef,
 }: PreviewPaneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const bodyRef = useRef<HTMLDivElement>(null)
+  const localBodyRef = useRef<HTMLDivElement>(null)
+  const resolvedBodyRef = bodyRef ?? localBodyRef
   const mermaidTimer = useRef<number | null>(null)
 
   // Render markdown -> sanitized HTML, then hydrate mermaid diagrams.
   useEffect(() => {
-    const body = bodyRef.current
+    const body = resolvedBodyRef.current
     if (!body) return
 
     const html = sanitize(renderMarkdown(content))
@@ -39,14 +43,14 @@ export function PreviewPane({
     return () => {
       if (mermaidTimer.current) window.clearTimeout(mermaidTimer.current)
     }
-  }, [content, theme])
+  }, [content, theme, resolvedBodyRef])
 
   // Re-render diagrams when the theme changes (colors differ per theme).
   useEffect(() => {
-    const body = bodyRef.current
+    const body = resolvedBodyRef.current
     if (!body) return
     void renderMermaid(body, theme)
-  }, [theme])
+  }, [theme, resolvedBodyRef])
 
   useEffect(() => {
     const el = containerRef.current
@@ -74,7 +78,7 @@ export function PreviewPane({
       className="print-area h-full overflow-y-auto px-6 py-6 md:px-10 md:py-8"
     >
       <div
-        ref={bodyRef}
+        ref={resolvedBodyRef}
         className="markdown-body mx-auto max-w-3xl"
         spellCheck={false}
       />

@@ -23,18 +23,23 @@ reimagined with a modern stack and a few things the original never had.
 | 🧩 **CodeMirror 6** | Fast, accessible editor with Markdown syntax highlighting |
 | ↔️ **Resizable split view** | Editor-only / split / preview-only, drag to resize |
 | 🔄 **Scroll sync** | Editor and preview scroll together |
-| 📋 **Copy & export** | Copy Markdown / HTML / rich text, download `.md` or standalone `.html`, print to PDF |
+| 📋 **Copy & export** | Copy Markdown / HTML / rich text, download `.md` / `.html` / **`.pdf`**, print |
+| 📄 **Download as PDF** | One-click, styled PDF export with footer attribution |
 | 📂 **Open files** | Load or drag-and-drop `.md` files |
 | 💾 **Auto-save** | Content & preferences persisted in `localStorage` |
 | 🎯 **Focus mode** | Hide the chrome and just write |
 | 📊 **Status bar** | Word / character / line count and reading time |
+| 🔍 **SEO optimised** | Per-document meta tags, Open Graph, Twitter cards, JSON-LD (WebApplication + FAQ + Article), sitemap & robots |
+| 💧 **Watermark** | "built by rifqysaputra.dev" on the UI, exported HTML and every PDF page |
 
 ### Keyboard shortcuts
 
 | Shortcut | Action |
 | --- | --- |
 | `Ctrl/Cmd + S` | Download `.md` |
+| `Ctrl/Cmd + Shift + S` | Download `.pdf` |
 | `Ctrl/Cmd + Shift + K` | Open the share dialog |
+| `Ctrl/Cmd + Shift + L` | Copy the share link |
 | `Ctrl/Cmd + B` | Cycle view mode |
 | `Ctrl/Cmd + J` | Toggle theme |
 
@@ -43,16 +48,53 @@ reimagined with a modern stack and a few things the original never had.
 ## 🔗 How sharing works
 
 Clicking **Share** serializes `{ title, markdown }` to JSON, compresses it with
-[LZ-String](https://github.com/pieroxy/lz-string) and puts it in the URL hash:
+[LZ-String](https://github.com/pieroxy/lz-string) and builds a readable URL that
+puts the **document title in the path** and the **content in the hash**:
 
 ```
-https://your-app.vercel.app/#md=N4IgxgLg...
+https://your-app.vercel.app/my-document-title#md=N4IgxgLg...
 ```
 
 Anyone opening the link sees the exact same document. Because everything lives in
 the fragment (`#…`), it is **never sent to a server** — the payload stays private
-and the app stays fully static. Very large documents may exceed what some chat
-apps allow in a URL; the dialog warns you when that happens.
+and the app stays fully static. The title in the path makes links readable and
+gives each shared document a unique, indexable URL. Very large documents may
+exceed what some chat apps allow in a URL; the dialog warns you when that happens.
+
+---
+
+## 🔍 SEO notes
+
+The app ships with a full SEO setup that keeps working after deployment:
+
+- **Rich meta tags** in `index.html`: title, description, keywords, robots,
+  canonical, Open Graph and Twitter cards.
+- **Dynamic per-document SEO** (`src/lib/seo.ts`): the `<title>`, description,
+  canonical URL, OG/Twitter tags and a JSON-LD `Article` node update live as the
+  document title or content changes.
+- **Structured data**: `WebApplication`, `SoftwareApplication`, `WebSite`,
+  `BreadcrumbList` and `FAQPage` (eligible for rich results).
+- **Crawlable fallback content** + a `<noscript>` block so search engines always
+  find meaningful text even without JavaScript.
+- **`robots.txt`** and **`sitemap.xml`** for clean crawling and indexing.
+- **`og-image.png`** (1200×630) for attractive link previews.
+
+> **After deploying**, update the domain in `src/lib/site.ts` (`fallbackUrl`),
+> `public/robots.txt` and `public/sitemap.xml` if you use a custom domain, then
+> submit the site to [Google Search Console](https://search.google.com/search-console)
+> and [Bing Webmaster Tools](https://www.bing.com/webmasters).
+
+---
+
+## 🖼️ Regenerating icons
+
+All favicons, PWA icons and the social preview image are generated from
+`public/icon.png`:
+
+```bash
+node scripts/generate-assets.mjs
+```
+
 
 ---
 

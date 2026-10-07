@@ -129,6 +129,22 @@
 }
 
 /* ------------------------------------------------------------------ */
+/* SEO fallback content — hidden visually, readable by crawlers        */
+/* ------------------------------------------------------------------ */
+.seo-fallback {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------------ */
 /* CodeMirror                                                          */
 /* ------------------------------------------------------------------ */
 .cm-editor {
@@ -515,10 +531,15 @@
   }
   .markdown-body {
     color: #111 !important;
+    max-width: none !important;
   }
   .markdown-body pre {
     background: #f6f8fa !important;
     border-color: #d0d7de !important;
     white-space: pre-wrap;
+  }
+  /* Attribution footer on every printed page */
+  .print-watermark {
+    display: block !important;
   }
 }
