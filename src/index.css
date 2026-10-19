@@ -431,7 +431,7 @@
 
 
 .markdown-body img {
-  @apply max-w-full rounded-xl2;
+  @apply my-3 max-w-full rounded-xl2 border border-ink-200 align-middle shadow-sm dark:border-ink-800;
 }
 
 .markdown-body table {

@@ -23,6 +23,7 @@ import {
   titleToSlug,
 } from './lib/share'
 import { fetchShortLink, shortIdFromPath } from './lib/shortlink'
+import { isImageFile } from './lib/images'
 import { storage, type Theme, type ViewMode } from './lib/storage'
 import {
   computeStats,
@@ -117,6 +118,23 @@ export default function App() {
   useEffect(() => {
     applySeo({ title, content })
   }, [title, content])
+
+  // One-time hint so people discover that images can be pasted with Ctrl/Cmd+V.
+  useEffect(() => {
+    try {
+      if (window.localStorage.getItem('mdpreview:imageHint')) return
+      window.localStorage.setItem('mdpreview:imageHint', '1')
+    } catch {
+      return
+    }
+    const timer = window.setTimeout(() => {
+      notify(
+        'Tip: press Ctrl/Cmd + V to paste an image straight into the document',
+        'info',
+      )
+    }, 1200)
+    return () => window.clearTimeout(timer)
+  }, [notify])
 
   // Resolve a `/s/<id>` short link by downloading its document.
   useEffect(() => {
@@ -303,9 +321,14 @@ export default function App() {
     (e: React.DragEvent) => {
       e.preventDefault()
       const file = e.dataTransfer.files?.[0]
-      if (file) void loadFile(file)
+      if (!file) return
+      if (isImageFile(file)) {
+        notify('Images: use Ctrl/Cmd + V to paste them into the editor', 'info')
+        return
+      }
+      void loadFile(file)
     },
-    [loadFile],
+    [loadFile, notify],
   )
 
   // Copy the share link directly (Ctrl/Cmd + Shift + L).
@@ -401,6 +424,7 @@ export default function App() {
                 onChange={setContent}
                 onScrollRatio={onEditorScroll}
                 scrollToRatioRef={scrollToEditor}
+                onNotify={notify}
               />
             }
             right={
@@ -419,6 +443,7 @@ export default function App() {
             theme={theme}
             wrap={wrap}
             onChange={setContent}
+            onNotify={notify}
           />
         ) : (
           <PreviewPane

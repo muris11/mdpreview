@@ -26,11 +26,13 @@ reimagined with a modern stack and a few things the original never had.
 | 📋 **Copy & export** | Copy Markdown / HTML / rich text, download `.md` / `.html` / **`.pdf`**, print |
 | 📄 **Download as PDF** | One-click, styled PDF export with footer attribution |
 | 📂 **Open files** | Load or drag-and-drop `.md` files |
+| 🖼️ **Paste images** | `Ctrl/Cmd + V` puts the image straight into the document — uploaded to a free image host through our `/api/upload` endpoint (the browser can't reach those hosts directly), compressed to WebP and embedded as a data URL when offline |
+| 📱 **Desktop layout everywhere** | Phones render the full desktop UI (same as "Request desktop site"), pinch to zoom |
 | 💾 **Auto-save** | Content & preferences persisted in `localStorage` |
 | 🎯 **Focus mode** | Hide the chrome and just write |
 | 📊 **Status bar** | Word / character / line count and reading time |
 | 🔍 **SEO optimised** | Per-document meta tags, Open Graph, Twitter cards, JSON-LD (WebApplication + FAQ + Article), sitemap & robots |
-| 💧 **Watermark** | "built by rifqysaputra.dev" on the UI, exported HTML and every PDF page |
+| 💧 **Watermark** | "built by rifqysaputra.dev" in the status-bar footer (desktop & mobile), exported HTML and every PDF page |
 
 ### Keyboard shortcuts
 
@@ -143,6 +145,8 @@ working.
 ## 📁 Project structure
 
 ```
+api/
+└─ upload.ts          # image upload endpoint (Vercel function)
 src/
 ├─ components/       # Toolbar, EditorPane, PreviewPane, ShareDialog, …
 ├─ hooks/            # useDebouncedValue, useToasts
@@ -151,12 +155,16 @@ src/
 │  ├─ sanitize.ts    # DOMPurify allow-lists (SVG + MathML)
 │  ├─ mermaid.ts     # lazy mermaid renderer
 │  ├─ share.ts       # LZ-String encode/decode
+│  ├─ images.ts      # paste-to-insert images (upload + WebP data URL fallback)
 │  ├─ storage.ts     # localStorage helpers
 │  ├─ export.ts      # standalone HTML export
 │  └─ languages.ts   # curated CodeMirror grammars
 ├─ App.tsx
 └─ index.css         # Tailwind theme + markdown styles
 ```
+
+Locally, `vite.config.ts` registers the same `/api/upload` handler as middleware,
+so `npm run dev` and `npm run preview` upload images exactly like production.
 
 ---
 

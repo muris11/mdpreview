@@ -31,24 +31,29 @@ export function SplitView({
     [onRatioChange],
   )
 
-  const startDrag = () => {
+  // Pointer events cover both mouse and touch, so the divider can be dragged
+  // on phones too (the mobile layout is the desktop layout).
+  const startDrag = (e: React.PointerEvent) => {
+    e.preventDefault()
     dragging.current = true
     document.body.style.cursor = 'col-resize'
     document.body.style.userSelect = 'none'
 
-    const onMove = (e: MouseEvent) => {
+    const onMove = (ev: PointerEvent) => {
       if (!dragging.current) return
-      updateFromClientX(e.clientX)
+      updateFromClientX(ev.clientX)
     }
     const onUp = () => {
       dragging.current = false
       document.body.style.cursor = ''
       document.body.style.userSelect = ''
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('mouseup', onUp)
+      window.removeEventListener('pointermove', onMove)
+      window.removeEventListener('pointerup', onUp)
+      window.removeEventListener('pointercancel', onUp)
     }
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup', onUp)
+    window.addEventListener('pointermove', onMove)
+    window.addEventListener('pointerup', onUp)
+    window.addEventListener('pointercancel', onUp)
   }
 
   return (
@@ -63,9 +68,9 @@ export function SplitView({
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize panels"
-        onMouseDown={startDrag}
+        onPointerDown={startDrag}
         onDoubleClick={() => onRatioChange(50)}
-        className="group relative w-1.5 shrink-0 cursor-col-resize bg-ink-200 transition-colors hover:bg-brand-500 dark:bg-ink-800 dark:hover:bg-brand-500"
+        className="group relative w-1.5 shrink-0 cursor-col-resize touch-none bg-ink-200 transition-colors hover:bg-brand-500 dark:bg-ink-800 dark:hover:bg-brand-500"
       >
         <span className="absolute top-1/2 left-1/2 h-8 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink-400/0 transition-colors group-hover:bg-white/70 dark:group-hover:bg-white/70" />
       </div>
