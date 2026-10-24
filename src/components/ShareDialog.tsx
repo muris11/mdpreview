@@ -10,7 +10,11 @@ import {
 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { buildShareUrl, encodeShare, titleToSlug } from '../lib/share'
-import { createShortLink, PASTE_EXPIRY_DAYS } from '../lib/shortlink'
+import {
+  createShortLink,
+  PASTE_EXPIRY_DAYS,
+  shortLinkErrorCode,
+} from '../lib/shortlink'
 import { formatBytes } from '../lib/utils'
 
 interface ShareDialogProps {
@@ -26,6 +30,20 @@ interface ShareDialogProps {
  * ~2000 characters reliably, and chat apps truncate long links aggressively.
  */
 const SAFE_URL_LENGTH = 2000
+
+/** Turns a `createShortLink` failure into something the user can act on. */
+function shortLinkMessage(error: unknown): string {
+  switch (shortLinkErrorCode(error)) {
+    case 'rate-limited':
+      return 'The paste service is rate-limiting requests — wait a few seconds and press Try again.'
+    case 'network':
+      return 'Could not reach the paste service — check your connection and press Try again.'
+    case 'rejected':
+      return 'The paste service rejected this document — copy the full link below instead.'
+    default:
+      return 'Could not create a short link — copy the full link below instead.'
+  }
+}
 
 export function ShareDialog({
   open,
@@ -122,12 +140,8 @@ function ShareDialogContent({
       const link = await createShortLink({ m: content, t: title || undefined })
       setShort({ rev, url: link })
       onNotify('Short link created')
-    } catch {
-      setShort({
-        rev,
-        error:
-          'Could not reach the paste service — use the full link below instead.',
-      })
+    } catch (error) {
+      setShort({ rev, error: shortLinkMessage(error) })
     } finally {
       setCreating(false)
     }
@@ -197,7 +211,7 @@ function ShareDialogContent({
                 </p>
               </div>
             </div>
-            {!shortUrl && (
+            {!shortUrl && !shortError && (
               <button
                 type="button"
                 onClick={createShort}
@@ -233,9 +247,24 @@ function ShareDialogContent({
           )}
 
           {shortError && (
-            <p className="mt-2 text-[11px] text-amber-600 dark:text-amber-400">
-              {shortError}
-            </p>
+            <div className="mt-2 flex items-start justify-between gap-3">
+              <p className="text-[11px] leading-snug text-amber-600 dark:text-amber-400">
+                {shortError}
+              </p>
+              <button
+                type="button"
+                onClick={createShort}
+                disabled={creating}
+                className="btn shrink-0"
+              >
+                {creating ? (
+                  <Loader2 size={14} className="animate-spin" />
+                ) : (
+                  <Zap size={14} />
+                )}
+                {creating ? 'Retrying…' : 'Try again'}
+              </button>
+            </div>
           )}
         </div>
 
