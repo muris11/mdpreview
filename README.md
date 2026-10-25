@@ -82,6 +82,11 @@ Hash links get long fast, so the share dialog also offers a **short link**
   browser and are stored on dpaste.com until they expire. Use the full link when
   the document is private.
 
+Reading one needs no routing: `vercel.json` rewrites `/s/<id>` to `index.html`,
+`shortIdFromPath()` picks the id out of the location, and `fetchShortLink()`
+downloads the chunks straight into the browser before the first paint of the
+document.
+
 ---
 
 ## 🔍 SEO notes
