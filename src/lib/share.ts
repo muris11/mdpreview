@@ -50,7 +50,14 @@ export function titleToSlug(title: string): string {
   )
 }
 
-/** Reads `#md=<data>` from a hash string and decodes it. */
+/**
+ * Reads `#md=<data>` from a hash string and decodes it.
+ *
+ * `URLSearchParams` decodes `+` as a space and LZ-String's URI-safe alphabet
+ * does contain `+`; `decompressFromEncodedURIComponent` maps spaces back to
+ * `+`, so the round trip survives. Do not simplify this into a raw split on
+ * `=` — share links would silently stop decoding.
+ */
 export function readShareFromHash(hash: string): SharePayload | null {
   const raw = hash.startsWith('#') ? hash.slice(1) : hash
   if (!raw) return null
