@@ -6,7 +6,7 @@
 A ground-up rebuild inspired by [markdown-live-preview](https://github.com/tanabe/markdown-live-preview),
 reimagined with a modern stack and a few things the original never had.
 
-🔗 **Live demo:** _add your Vercel URL here after deploying_
+🔗 **Live demo:** https://mdpreview.center.biz.id
 
 ---
 
@@ -17,6 +17,7 @@ reimagined with a modern stack and a few things the original never had.
 | 📝 **Live preview** | Debounced, instant rendering while you type |
 | 🌓 **Dark / light theme** | Follows your system, remembered per browser |
 | 🔗 **Shareable links** | The whole document is compressed into the URL (LZ-String) — no server, no account |
+| ⚡ **Short links** | **Create** turns any document into a compact `/s/abc123` link for chat — large documents are split into chunks and flaky uploads are retried automatically |
 | 🧜 **Mermaid diagrams** | Flowcharts, sequence, gantt, class… lazily loaded |
 | ➗ **KaTeX math** | Inline `$…$` and block `$$…$$` equations |
 | 🎨 **Syntax highlighting** | 30+ languages via highlight.js |
@@ -62,6 +63,24 @@ the fragment (`#…`), it is **never sent to a server** — the payload stays pr
 and the app stays fully static. The title in the path makes links readable and
 gives each shared document a unique, indexable URL. Very large documents may
 exceed what some chat apps allow in a URL; the dialog warns you when that happens.
+
+### Short links
+
+Hash links get long fast, so the share dialog also offers a **short link**
+(`https://your-app/s/abc123`) created by **Create**:
+
+- The compressed document is uploaded to [dpaste.com](https://dpaste.com) — a free
+  paste service that needs no API key, no backend and no database, so the app
+  stays a static build. It expires after `PASTE_EXPIRY_DAYS` (365).
+- dpaste rejects pastes above roughly 90 000 characters, so bigger documents are
+  **split into 40 000-character chunks behind a manifest** and reassembled on
+  load. Single-chunk links keep working as before.
+- `429`, `5xx` and offline responses are **retried with backoff** before giving
+  up, and failures are reported with the real cause (rate limited / offline /
+  rejected) plus a **Try again** button instead of a generic error.
+- ⚠️ **Privacy:** unlike the `#md=` link, a short link's contents do leave the
+  browser and are stored on dpaste.com until they expire. Use the full link when
+  the document is private.
 
 ---
 
@@ -148,19 +167,27 @@ working.
 api/
 └─ upload.ts          # image upload endpoint (Vercel function)
 src/
-├─ components/       # Toolbar, EditorPane, PreviewPane, ShareDialog, …
-├─ hooks/            # useDebouncedValue, useToasts
+├─ components/        # Toolbar, EditorPane, PreviewPane, SplitView, ShareDialog,
+│                     # StatusBar, ToastStack, Watermark
+├─ hooks/             # useDebouncedValue, useToasts
 ├─ lib/
-│  ├─ markdown.ts    # markdown-it configuration
-│  ├─ sanitize.ts    # DOMPurify allow-lists (SVG + MathML)
-│  ├─ mermaid.ts     # lazy mermaid renderer
-│  ├─ share.ts       # LZ-String encode/decode
-│  ├─ images.ts      # paste-to-insert images (upload + WebP data URL fallback)
-│  ├─ storage.ts     # localStorage helpers
-│  ├─ export.ts      # standalone HTML export
-│  └─ languages.ts   # curated CodeMirror grammars
+│  ├─ markdown.ts     # markdown-it configuration
+│  ├─ sanitize.ts     # DOMPurify allow-lists (SVG + MathML)
+│  ├─ mermaid.ts      # lazy mermaid renderer
+│  ├─ highlight.ts    # highlight.js setup
+│  ├─ share.ts        # LZ-String encode/decode + readable share URLs
+│  ├─ shortlink.ts    # /s/<id> links on dpaste.com (chunked + retried)
+│  ├─ images.ts       # paste-to-insert images (upload + WebP data URL fallback)
+│  ├─ seo.ts          # live per-document meta tags + JSON-LD
+│  ├─ site.ts         # site name, origin, watermark
+│  ├─ storage.ts      # localStorage helpers
+│  ├─ export.ts       # standalone HTML export
+│  ├─ pdf.ts          # styled PDF export
+│  ├─ sample.ts       # welcome document
+│  ├─ utils.ts        # small formatting helpers
+│  └─ languages.ts    # curated CodeMirror grammars
 ├─ App.tsx
-└─ index.css         # Tailwind theme + markdown styles
+└─ index.css          # Tailwind theme + markdown styles
 ```
 
 Locally, `vite.config.ts` registers the same `/api/upload` handler as middleware,
