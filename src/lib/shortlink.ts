@@ -107,7 +107,12 @@ async function uploadChunked(encoded: string): Promise<string> {
     parts.push(await uploadPaste(encoded.slice(i, i + CHUNK_LIMIT)))
   }
   const manifest: { v: 1; parts: string[] } = { v: 1, parts }
-  return uploadPaste(JSON.stringify(manifest))
+  const encodedManifest = JSON.stringify(manifest)
+  // Absurdly large documents would produce a manifest the service rejects too.
+  if (encodedManifest.length > CHUNK_LIMIT) {
+    fail('rejected', 'Document is too large for a short link')
+  }
+  return uploadPaste(encodedManifest)
 }
 
 /** Uploads a document and returns a short `<origin>/s/<id>` link. */
