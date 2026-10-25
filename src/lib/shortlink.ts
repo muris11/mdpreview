@@ -105,6 +105,9 @@ async function uploadChunked(encoded: string): Promise<string> {
   const parts: string[] = []
   for (let i = 0; i < encoded.length; i += CHUNK_LIMIT) {
     parts.push(await uploadPaste(encoded.slice(i, i + CHUNK_LIMIT)))
+    // Pace the uploads — back-to-back pastes are exactly what trips the
+    // service's rate limit, and every chunk has to land for the link to work.
+    if (i + CHUNK_LIMIT < encoded.length) await wait(300)
   }
   const manifest: { v: 1; parts: string[] } = { v: 1, parts }
   const encodedManifest = JSON.stringify(manifest)
