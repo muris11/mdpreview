@@ -239,6 +239,7 @@ function ShareDialogContent({
               <button
                 type="button"
                 onClick={copyShort}
+                aria-label={shortCopied ? 'Short link copied' : 'Copy short link'}
                 className="btn btn-primary shrink-0"
               >
                 {shortCopied ? <Check size={16} /> : <Copy size={16} />}
