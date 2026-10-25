@@ -129,10 +129,13 @@ node scripts/generate-assets.mjs
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm run build    # production build → dist/
+npm run build    # type check (tsc -b) + production build → dist/
 npm run preview  # preview the production build
 npm run lint     # oxlint
 ```
+
+There is no test suite: `npm run build` doubling as the type check is the gate
+that keeps a bad push out of the repository.
 
 Requires Node.js 20+.
 
