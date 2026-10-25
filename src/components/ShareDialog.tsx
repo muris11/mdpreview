@@ -165,14 +165,21 @@ function ShareDialogContent({
         className="absolute inset-0 bg-ink-950/50 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="card relative z-10 w-full max-w-lg p-5 shadow-2xl">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="share-dialog-title"
+        className="card relative z-10 w-full max-w-lg p-5 shadow-2xl"
+      >
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-xl bg-brand-500/12 text-brand-500">
               <Share2 size={20} />
             </span>
             <div>
-              <h2 className="text-base font-semibold">Share this document</h2>
+              <h2 id="share-dialog-title" className="text-base font-semibold">
+                Share this document
+              </h2>
               <p className="text-xs text-ink-500 dark:text-ink-400">
                 Short link for chat, or a private link that needs no server.
               </p>
