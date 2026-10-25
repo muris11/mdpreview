@@ -294,6 +294,7 @@ export function Toolbar(props: ToolbarProps) {
         <button
           type="button"
           onClick={onShare}
+          aria-label="Share"
           className="btn btn-primary ml-1 h-9 gap-1.5 px-3"
         >
           <Link2 size={16} />
