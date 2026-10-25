@@ -183,7 +183,13 @@ export default function App() {
       const next = path + hash
       const current = window.location.pathname + window.location.hash
       if (current !== next) {
-        window.history.replaceState(null, '', next)
+        // Browsers cap how long an address bar entry may be; a very large
+        // document must not throw here and take the editor down with it.
+        try {
+          window.history.replaceState(null, '', next)
+        } catch {
+          /* keep the previous, shorter entry */
+        }
       }
     }, 700)
     return () => window.clearTimeout(timer)
