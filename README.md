@@ -89,6 +89,21 @@ document.
 
 ---
 
+## 🔒 Privacy: what actually leaves your browser
+
+| | |
+| --- | --- |
+| ✍️ Typing, preview, export, auto-save | Entirely local — `localStorage` only, nothing is sent anywhere. |
+| 🔗 Full share link (`#md=…`) | Stays in the URL fragment, which browsers never include in an HTTP request. |
+| ⚡ Short link (`/s/…`) | The compressed document is stored on dpaste.com for up to 365 days. |
+| 🖼️ Pasted images | Sent to this app's own `/api/upload` function, which forwards the file to catbox.moe and returns a **public** URL embedded in your Markdown. |
+| 📊 Deployed site only | A Cloudflare Web Analytics beacon loads for aggregate traffic stats (injected by Cloudflare, not part of this repository). |
+
+Use the full link when a document must not be stored anywhere else, and host
+images yourself if they are sensitive.
+
+---
+
 ## 🔍 SEO notes
 
 The app ships with a full SEO setup that keeps working after deployment:
