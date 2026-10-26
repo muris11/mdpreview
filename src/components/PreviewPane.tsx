@@ -75,7 +75,10 @@ export function PreviewPane({
   return (
     <div
       ref={containerRef}
-      className="print-area h-full overflow-y-auto px-6 py-6 md:px-10 md:py-8"
+      role="region"
+      aria-label="Markdown preview"
+      tabIndex={0}
+      className="print-area h-full overflow-y-auto px-6 py-6 focus-visible:[box-shadow:inset_0_0_0_2px_var(--color-brand-500)] md:px-10 md:py-8"
     >
       <div
         ref={resolvedBodyRef}
