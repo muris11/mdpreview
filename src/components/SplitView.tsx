@@ -68,9 +68,28 @@ export function SplitView({
         role="separator"
         aria-orientation="vertical"
         aria-label="Resize panels"
+        aria-valuenow={Math.round(ratio)}
+        aria-valuemin={MIN}
+        aria-valuemax={MAX}
+        tabIndex={0}
         onPointerDown={startDrag}
         onDoubleClick={() => onRatioChange(50)}
-        className="group relative w-1.5 shrink-0 cursor-col-resize touch-none bg-ink-200 transition-colors hover:bg-brand-500 dark:bg-ink-800 dark:hover:bg-brand-500"
+        onKeyDown={(event) => {
+          const step = event.shiftKey ? 10 : 2
+          if (event.key === 'ArrowLeft') {
+            onRatioChange(Math.max(MIN, ratio - step))
+          } else if (event.key === 'ArrowRight') {
+            onRatioChange(Math.min(MAX, ratio + step))
+          } else if (event.key === 'Home') {
+            onRatioChange(MIN)
+          } else if (event.key === 'End') {
+            onRatioChange(MAX)
+          } else {
+            return
+          }
+          event.preventDefault()
+        }}
+        className="group relative w-1.5 shrink-0 cursor-col-resize touch-none bg-ink-200 transition-colors hover:bg-brand-500 focus-visible:bg-brand-500 focus-visible:outline-none dark:bg-ink-800 dark:hover:bg-brand-500"
       >
         <span className="absolute top-1/2 left-1/2 h-8 w-1 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink-400/0 transition-colors group-hover:bg-white/70 dark:group-hover:bg-white/70" />
       </div>
