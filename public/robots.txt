@@ -1,24 +1,55 @@
 # MDPreview Center — https://mdpreview.center.biz.id
+# Free online Markdown editor with live preview.
 
 User-agent: *
 Allow: /
-
-# Block nothing essential; the whole site is a single public app.
 Disallow: /api/
 
-# Crawl-friendly
-Sitemap: https://mdpreview.center.biz.id/sitemap.xml
-Host: https://mdpreview.center.biz.id
+# --- AI / answer-engine crawlers -------------------------------------------
+# Allowed on purpose: being crawlable is what gets the app cited in AI answers
+# (AI Overviews, ChatGPT, Perplexity, Copilot). Nothing here is paywalled.
+User-agent: GPTBot
+Allow: /
 
-# Common AI / search crawlers are explicitly welcome
-User-agent: Googlebot
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: GPTBot
+User-agent: BingWebMaster
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Googlebot
 Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# --- Host + sitemap ---------------------------------------------------------
+Host: https://mdpreview.center.biz.id
+Sitemap: https://mdpreview.center.biz.id/sitemap.xml

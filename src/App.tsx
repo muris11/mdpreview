@@ -114,10 +114,12 @@ export default function App() {
     return () => window.clearTimeout(timer)
   }, [content, title, loadingShort])
 
-  // Dynamic SEO metadata for crawlers and social sharing.
+  // Dynamic SEO metadata for crawlers and social sharing. Only documents that
+  // arrived from a share link are indexable at their own URL; a locally
+  // authored document canonicalises to the home page.
   useEffect(() => {
-    applySeo({ title, content })
-  }, [title, content])
+    applySeo({ title, content, shared: initial.fromShare })
+  }, [title, content, initial.fromShare])
 
   // One-time hint so people discover that images can be pasted with Ctrl/Cmd+V.
   useEffect(() => {

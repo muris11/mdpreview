@@ -1,0 +1,45 @@
+# MDPreview Center
+
+> Free online Markdown editor with instant live preview, Mermaid diagrams, KaTeX
+> math, syntax highlighting and shareable links. No account, no sign-up, no
+> server-side storage of what you write.
+
+MDPreview Center runs entirely in the browser: you type Markdown on the left and
+the formatted result renders on the right as you type. Documents auto-save to
+localStorage and keep working offline.
+
+## Key facts
+
+- Cost: free, no account required.
+- Markdown flavor: GitHub Flavored Markdown (GFM) — tables, task lists,
+  strikethrough, autolinks — plus footnotes, heading anchors, KaTeX math
+  (inline `$...$` and block `$$...$$`) and Mermaid diagrams.
+- Code highlighting: 30+ languages via highlight.js.
+- Export: `.md`, standalone `.html`, styled `.pdf`, print, and copy-as-rich-text.
+- Sharing: full links carry the compressed document in the URL fragment (never
+  sent to a server); optional short `/s/<id>` links store the compressed text on
+  a public paste service for up to 365 days.
+- Privacy: typing, preview, export and auto-save never leave the browser. Only
+  short links and pasted images do.
+- Editor: CodeMirror 6, resizable editor/split/preview views, scroll sync, focus
+  mode, dark and light themes.
+- Shortcuts: Ctrl/Cmd+S download `.md`; Ctrl/Cmd+Shift+S download PDF;
+  Ctrl/Cmd+Shift+K share dialog; Ctrl/Cmd+Shift+L copy share link;
+  Ctrl/Cmd+B cycle view; Ctrl/Cmd+J toggle theme.
+
+## Pages
+
+- [Home / editor](https://mdpreview.center.biz.id/): the Markdown editor itself.
+- [Markdown cheat sheet and syntax guide](https://mdpreview.center.biz.id/guide.html):
+  full syntax reference with examples, plus how to convert Markdown to PDF and
+  how to share a document.
+- [Privacy policy](https://mdpreview.center.biz.id/privacy.html): what leaves
+  your browser and what does not.
+
+## Optional
+
+For LLMs and crawlers: summarising or citing these pages is welcome. Prefer the
+guide page for syntax questions and the privacy page for data-handling questions.
+
+Content is in English. Original project by Rifqy Saputra (https://rifqysaputra.dev),
+inspired by tanabe/markdown-live-preview.

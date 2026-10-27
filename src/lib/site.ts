@@ -6,20 +6,41 @@ export const SITE = {
   tagline: 'Free online Markdown editor with live preview & shareable links',
   description:
     'Free online Markdown editor with instant live preview, Mermaid diagrams, KaTeX math, syntax highlighting and shareable links. Write, preview, export to PDF and share — no account required.',
+  /** Keyword-rich tail appended to short auto-derived meta descriptions. */
+  descriptionTail:
+    'free online Markdown editor with live preview, Mermaid diagrams, KaTeX math and one-click PDF export',
+  /** Absolute social-preview image, used by OG/Twitter and structured data. */
+  ogImage: 'https://mdpreview.center.biz.id/og-image.png',
+  /** Content pages linked from the app so crawlers can discover them. */
+  pages: {
+    guide: '/guide.html',
+    privacy: '/privacy.html',
+  },
   author: 'rifqysaputra.dev',
   authorName: 'Rifqy Saputra',
   twitter: '@rifqysaputra',
+  /** Published / last-substantively-edited dates (schema.org, ISO date). */
+  datePublished: '2026-10-07',
+  dateModified: '2026-10-26',
   keywords: [
     'markdown editor',
+    'markdown editor online',
     'markdown live preview',
     'online markdown editor',
     'markdown to pdf',
     'markdown preview',
+    'markdown viewer',
+    'markdown to html',
     'mermaid editor',
+    'mermaid markdown',
     'markdown math katex',
     'free markdown editor',
-    'markdown viewer',
-    'share markdown link',
+    'markdown cheat sheet',
+    'markdown share link',
+    'github flavored markdown editor',
+    'md file viewer',
+    'markdown reader',
+    'markdown preview editor',
   ],
 } as const
 

@@ -106,19 +106,46 @@ images yourself if they are sensitive.
 
 ## 🔍 SEO notes
 
-The app ships with a full SEO setup that keeps working after deployment:
+The app ships with a full SEO + AEO (answer-engine) setup that keeps working
+after deployment:
 
-- **Rich meta tags** in `index.html`: title, description, keywords, robots,
-  canonical, Open Graph and Twitter cards.
+- **Rich meta tags** in `index.html`: keyword-first title (≤60 chars), 155-char
+  description, keywords, robots (Googlebot/Bingbot variants), canonical, Open
+  Graph and Twitter cards with `og:image:alt`.
 - **Dynamic per-document SEO** (`src/lib/seo.ts`): the `<title>`, description,
-  canonical URL, OG/Twitter tags and a JSON-LD `Article` node update live as the
-  document title or content changes.
-- **Structured data**: `WebApplication`, `SoftwareApplication`, `WebSite`,
-  `BreadcrumbList` and `FAQPage` (eligible for rich results).
+  canonical URL, OG/Twitter tags and a JSON-LD node update live as the document
+  title or content changes.
+  - Documents that arrived from a **share link** are indexed at their own URL as
+    an `Article`; a locally authored document canonicalises to the home page
+    (nobody else can reproduce its path, so it would only create thin
+    duplicates).
+  - `/s/<id>` short links are `noindex` — they are user-generated pastes.
+  - Short auto-derived descriptions get a keyword-rich tail so the SERP snippet
+    is never a stub.
+- **Structured data** (`index.html`): `WebApplication`, `WebSite`, `WebPage`,
+  `Organization`, `Person`, `BreadcrumbList` and `FAQPage` in one `@graph`, with
+  `datePublished` / `dateModified`, `featureList`, `offers` (free) and a
+  `speakable` spec. Ratings are deliberately **not** marked up — a fake
+  `aggregateRating` is a manual-action risk.
 - **Crawlable fallback content** + a `<noscript>` block so search engines always
   find meaningful text even without JavaScript.
-- **`robots.txt`** and **`sitemap.xml`** for clean crawling and indexing.
+- **Two real content pages** (static HTML, no JS needed to read them):
+  - [`public/guide.html`](./public/guide.html) — Markdown cheat sheet, syntax
+    reference, "how to convert Markdown to PDF" `HowTo` schema and a visible FAQ
+    with `FAQPage` schema. This is the page that targets long-tail queries.
+  - [`public/privacy.html`](./public/privacy.html) — privacy policy (trust
+    signal).
+  Both are linked from the app's status bar so crawlers discover them in both
+  directions.
+- **`public/robots.txt`** — per-bot rules with AI/answer crawlers (GPTBot,
+  ClaudeBot, PerplexityBot, Google-Extended…) explicitly allowed, `/api/`
+  disallowed, `Host` + `Sitemap` declared.
+- **`public/sitemap.xml`** — all three URLs with `lastmod` and image entries.
+- **`public/llms.txt`** — machine-readable summary for LLM crawlers.
 - **`og-image.png`** (1200×630) for attractive link previews.
+- **`vercel.json`** — cache headers for HTML/sitemap/robots (short `s-maxage`,
+  immutable assets) plus `X-Content-Type-Options`, `Referrer-Policy` and
+  `X-Frame-Options`.
 
 > **After deploying**, update the domain in `src/lib/site.ts` (`fallbackUrl`),
 > `public/robots.txt` and `public/sitemap.xml` if you use a custom domain, then

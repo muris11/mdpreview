@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Markdown Cheat Sheet &amp; Syntax Guide (2026) — MDPreview Center</title>
+    <meta
+      name="description"
+      content="Complete Markdown cheat sheet: headings, bold, lists, links, tables, code blocks, footnotes, KaTeX math and Mermaid diagrams — plus how to preview, share and export Markdown to PDF."
+    />
+    <meta
+      name="keywords"
+      content="markdown cheat sheet, markdown syntax guide, markdown syntax, markdown reference, markdown tutorial, markdown examples, markdown to pdf, markdown tables, markdown code blocks, mermaid markdown, markdown math"
+    />
+    <meta name="author" content="Rifqy Saputra — rifqysaputra.dev" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
+    <link rel="canonical" href="https://mdpreview.center.biz.id/guide.html" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="MDPreview Center" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://mdpreview.center.biz.id/guide.html" />
+    <meta
+      property="og:title"
+      content="Markdown Cheat Sheet &amp; Syntax Guide (2026)"
+    />
+    <meta
+      property="og:description"
+      content="Every Markdown syntax you actually need — headings, tables, code, footnotes, math and Mermaid diagrams — with copy-paste examples."
+    />
+    <meta property="og:image" content="https://mdpreview.center.biz.id/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@rifqysaputra" />
+    <meta
+      name="twitter:title"
+      content="Markdown Cheat Sheet &amp; Syntax Guide (2026)"
+    />
+    <meta
+      name="twitter:description"
+      content="Every Markdown syntax you actually need — headings, tables, code, footnotes, math and Mermaid diagrams."
+    />
+    <meta name="twitter:image" content="https://mdpreview.center.biz.id/og-image.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #f7f8fa;
+        --border: #e4e7ee;
+        --text: #161e30;
+        --muted: #5b6478;
+        --brand: #2563eb;
+        --brand-soft: #eff4ff;
+        --code-bg: #f2f4f8;
+        --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f17;
+          --surface: #131926;
+          --border: #232b3d;
+          --text: #e6ecf7;
+          --muted: #94a0b8;
+          --brand: #7aa2ff;
+          --brand-soft: #172033;
+          --code-bg: #161d2c;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        -webkit-text-size-adjust: 100%;
+      }
+      a {
+        color: var(--brand);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 0 24px 72px;
+      }
+      header.site {
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+      header.site .wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        max-width: 860px;
+      }
+      header.site img {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+      }
+      header.site .name {
+        font-weight: 650;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+      header.site nav {
+        margin-left: auto;
+        display: flex;
+        gap: 18px;
+        font-size: 14px;
+      }
+      .hero {
+        padding: 48px 0 8px;
+      }
+      .hero h1 {
+        font-size: clamp(28px, 4.4vw, 42px);
+        line-height: 1.18;
+        letter-spacing: -0.025em;
+        margin: 0 0 14px;
+      }
+      .hero p.lede {
+        font-size: 18px;
+        color: var(--muted);
+        margin: 0 0 22px;
+      }
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--brand);
+        color: #fff;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .cta:hover {
+        text-decoration: none;
+        filter: brightness(1.07);
+      }
+      .cta.secondary {
+        background: transparent;
+        color: var(--brand);
+        border: 1px solid var(--border);
+        margin-left: 10px;
+      }
+      h2 {
+        font-size: 26px;
+        letter-spacing: -0.02em;
+        margin: 52px 0 6px;
+        scroll-margin-top: 20px;
+      }
+      h3 {
+        font-size: 18px;
+        margin: 30px 0 8px;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 12px 0;
+      }
+      .toc {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px 24px;
+        margin: 34px 0 0;
+      }
+      .toc strong {
+        display: block;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .toc ol {
+        margin: 0;
+        padding-left: 20px;
+        columns: 2;
+        column-gap: 32px;
+      }
+      @media (max-width: 640px) {
+        .toc ol {
+          columns: 1;
+        }
+      }
+      .toc li {
+        margin: 5px 0;
+        break-inside: avoid;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14.5px;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 9px 12px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface);
+        font-weight: 600;
+      }
+      td:first-child {
+        white-space: nowrap;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 5px;
+      }
+      pre {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        overflow-x: auto;
+        font-family: var(--mono);
+        font-size: 13.5px;
+        line-height: 1.6;
+      }
+      pre code {
+        background: none;
+        border: 0;
+        padding: 0;
+        font-size: inherit;
+      }
+      blockquote {
+        margin: 16px 0;
+        padding: 4px 18px;
+        border-left: 3px solid var(--brand);
+        background: var(--brand-soft);
+        border-radius: 0 10px 10px 0;
+        color: var(--muted);
+      }
+      ul,
+      ol {
+        padding-left: 24px;
+      }
+      li {
+        margin: 5px 0;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 22px;
+        margin: 18px 0;
+      }
+      .card h3 {
+        margin-top: 0;
+      }
+      .steps {
+        counter-reset: step;
+        list-style: none;
+        padding: 0;
+      }
+      .steps li {
+        counter-increment: step;
+        position: relative;
+        padding: 0 0 18px 46px;
+        margin: 0;
+      }
+      .steps li::before {
+        content: counter(step);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--brand);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        display: grid;
+        place-items: center;
+      }
+      .steps li::after {
+        content: '';
+        position: absolute;
+        left: 15px;
+        top: 34px;
+        bottom: 4px;
+        width: 1px;
+        background: var(--border);
+      }
+      .steps li:last-child::after {
+        display: none;
+      }
+      .faq details {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 13px 18px;
+        margin: 10px 0;
+        background: var(--surface);
+      }
+      .faq summary {
+        cursor: pointer;
+        font-weight: 600;
+        list-style: none;
+      }
+      .faq summary::-webkit-details-marker {
+        display: none;
+      }
+      .faq details p {
+        margin-bottom: 0;
+        color: var(--muted);
+      }
+      .footer {
+        border-top: 1px solid var(--border);
+        margin-top: 64px;
+        padding-top: 26px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-bottom: 12px;
+      }
+      .crumbs {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 26px;
+      }
+      .note {
+        font-size: 14px;
+        color: var(--muted);
+        font-style: italic;
+      }
+    </style>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Article",
+            "@id": "https://mdpreview.center.biz.id/guide.html#article",
+            "headline": "Markdown Cheat Sheet & Syntax Guide (2026)",
+            "description": "Complete Markdown syntax reference covering headings, emphasis, lists, links, images, tables, code blocks, blockquotes, footnotes, task lists, KaTeX math and Mermaid diagrams.",
+            "url": "https://mdpreview.center.biz.id/guide.html",
+            "inLanguage": "en",
+            "datePublished": "2026-10-07",
+            "dateModified": "2026-10-26",
+            "articleSection": "Markdown",
+            "keywords": "markdown cheat sheet, markdown syntax, markdown reference, markdown tutorial",
+            "wordCount": 1400,
+            "author": { "@id": "https://rifqysaputra.dev/#person" },
+            "publisher": { "@id": "https://mdpreview.center.biz.id/#organization" },
+            "mainEntityOfPage": {
+              "@type": "WebPage",
+              "@id": "https://mdpreview.center.biz.id/guide.html"
+            },
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://mdpreview.center.biz.id/og-image.png"
+            },
+            "isAccessibleForFree": true
+          },
+          {
+            "@type": "Person",
+            "@id": "https://rifqysaputra.dev/#person",
+            "name": "Rifqy Saputra",
+            "url": "https://rifqysaputra.dev/",
+            "jobTitle": "Web developer",
+            "sameAs": ["https://twitter.com/rifqysaputra"]
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://mdpreview.center.biz.id/#organization",
+            "name": "rifqysaputra.dev",
+            "url": "https://rifqysaputra.dev/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://mdpreview.center.biz.id/logo.png"
+            },
+            "sameAs": ["https://twitter.com/rifqysaputra"]
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://mdpreview.center.biz.id/guide.html#webpage",
+            "url": "https://mdpreview.center.biz.id/guide.html",
+            "name": "Markdown Cheat Sheet & Syntax Guide (2026)",
+            "description": "Complete Markdown syntax reference plus how to preview, share and export Markdown documents to PDF.",
+            "inLanguage": "en",
+            "datePublished": "2026-10-07",
+            "dateModified": "2026-10-26",
+            "isPartOf": { "@id": "https://mdpreview.center.biz.id/#website" },
+            "breadcrumb": {
+              "@id": "https://mdpreview.center.biz.id/guide.html#breadcrumb"
+            },
+            "primaryImageOfPage": {
+              "@type": "ImageObject",
+              "url": "https://mdpreview.center.biz.id/og-image.png"
+            },
+            "speakable": {
+              "@type": "SpeakableSpecification",
+              "cssSelector": ["h1", ".lede", ".faq h3"]
+            }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://mdpreview.center.biz.id/guide.html#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://mdpreview.center.biz.id/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Markdown Guide",
+                "item": "https://mdpreview.center.biz.id/guide.html"
+              }
+            ]
+          },
+          {
+            "@type": "HowTo",
+            "@id": "https://mdpreview.center.biz.id/guide.html#howto",
+            "name": "How to convert Markdown to PDF",
+            "description": "Turn a Markdown document into a styled PDF in three steps using the free MDPreview Center editor.",
+            "totalTime": "PT1M",
+            "estimatedCost": {
+              "@type": "MonetaryAmount",
+              "currency": "USD",
+              "value": "0"
+            },
+            "step": [
+              {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Open the Markdown editor",
+                "text": "Open MDPreview Center and paste, type or drop your Markdown document into the editor pane.",
+                "url": "https://mdpreview.center.biz.id/"
+              },
+              {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Check the preview",
+                "text": "Watch the preview pane render your headings, tables, code and diagrams live while you type.",
+                "url": "https://mdpreview.center.biz.id/"
+              },
+              {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Download the PDF",
+                "text": "Choose Download PDF from the export menu (or press Ctrl/Cmd + Shift + S) to save a styled, paginated PDF of the document.",
+                "url": "https://mdpreview.center.biz.id/"
+              }
+            ]
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://mdpreview.center.biz.id/guide.html#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Markdown?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Markdown is a lightweight markup language invented by John Gruber in 2004 for writing formatted text with plain characters. Asterisks make text bold, hash marks make headings, and the same file renders as HTML, PDF, Word or a web page."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Which Markdown flavor does MDPreview Center support?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "GitHub Flavored Markdown (GFM) — tables, task lists, strikethrough and autolinks — plus footnotes, anchor links, syntax-highlighted code fences, KaTeX math and Mermaid diagrams."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I convert Markdown to PDF?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Open the document in MDPreview Center, then choose Download PDF from the export menu or press Ctrl+Shift+S (Cmd+Shift+S on macOS). The PDF is generated in your browser with styling and page numbers."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How do I add a Mermaid diagram to Markdown?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Wrap the diagram source in a fenced code block tagged mermaid. The preview renders it as a real diagram: three backticks, the word mermaid, the diagram code, then three closing backticks."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is MDPreview Center free?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, it is free with no account, no watermarks on your content and no usage limits. Everything runs in the browser and your writing is saved to localStorage on your own device."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Where is my Markdown stored?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "In your browser's localStorage only. Nothing is uploaded while you type. A document only leaves your device when you choose to create a short share link or paste an image."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <img src="/logo.png" alt="" width="28" height="28" />
+        <span class="name">MDPreview Center</span>
+        <nav>
+          <a href="/">Editor</a>
+          <a href="/guide.html" aria-current="page">Guide</a>
+          <a href="/privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <p class="crumbs">
+        <a href="/">Home</a> › Markdown cheat sheet &amp; syntax guide
+      </p>
+
+      <section class="hero">
+        <h1>Markdown Cheat Sheet &amp; Syntax Guide</h1>
+        <p class="lede">
+          Every Markdown syntax you actually need, in one reference: headings,
+          emphasis, lists, links, tables, code blocks, footnotes, math and
+          diagrams — with copy-paste examples you can drop straight into
+          <a href="/">MDPreview Center</a> and watch render live.
+        </p>
+        <a class="cta" href="/">Open the Markdown editor →</a>
+        <a class="cta secondary" href="#cheatsheet">Jump to cheat sheet</a>
+      </section>
+
+      <nav class="toc" aria-label="Table of contents">
+        <strong>On this page</strong>
+        <ol>
+          <li><a href="#what-is-markdown">What is Markdown?</a></li>
+          <li><a href="#why">Why use it</a></li>
+          <li><a href="#cheatsheet">Cheat sheet</a></li>
+          <li><a href="#tables">Tables</a></li>
+          <li><a href="#code">Code &amp; syntax highlighting</a></li>
+          <li><a href="#math">Math (KaTeX)</a></li>
+          <li><a href="#mermaid">Mermaid diagrams</a></li>
+          <li><a href="#footnotes">Footnotes &amp; task lists</a></li>
+          <li><a href="#export">Preview, share &amp; export</a></li>
+          <li><a href="#shortcuts">Keyboard shortcuts</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ol>
+      </nav>
+
+      <h2 id="what-is-markdown">What is Markdown?</h2>
+      <p>
+        <strong>Markdown is a lightweight markup language</strong> created by
+        John Gruber in 2004 for writing formatted text using plain, readable
+        characters. Two asterisks around a word make it <strong>bold</strong>,
+        hash marks at the start of a line make a heading, and the same plain-text
+        file can render as HTML, a PDF, a Word document or a web page.
+      </p>
+      <p>
+        Because it is just text, Markdown travels everywhere: GitHub READMEs,
+        pull request descriptions, README files, Obsidian and Notion notes,
+        documentation sites, blog posts, release notes and chat messages. Learn
+        it once and the syntax works in all of them.
+      </p>
+
+      <h2 id="why">Why use Markdown instead of a word processor</h2>
+      <ul>
+        <li>
+          <strong>Plain text, no lock-in.</strong> A <code>.md</code> file opens
+          in any editor and will still be readable in twenty years.
+        </li>
+        <li>
+          <strong>Diff-friendly.</strong> Version control can show exactly which
+          sentence changed, because a change is a change of words, not of
+          binary formatting.
+        </li>
+        <li>
+          <strong>One source, many outputs.</strong> The same file becomes a web
+          page, a PDF, a README or an email without retyping.
+        </li>
+        <li>
+          <strong>Focus on writing.</strong> No toolbar, no font picker — just
+          the words and a handful of symbols.
+        </li>
+        <li>
+          <strong>Renders everywhere.</strong> GitHub, GitLab, Stack Overflow,
+          Discord, Reddit and most doc tools speak Markdown natively.
+        </li>
+      </ul>
+
+      <h2 id="cheatsheet">Markdown cheat sheet</h2>
+      <p>
+        Type this in the left pane of the editor and the right pane updates as
+        you type.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>You type</th>
+            <th>You get</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code># Heading 1</code></td>
+            <td>Heading 1</td>
+            <td>Up to six levels: <code>######</code> is Heading 6</td>
+          </tr>
+          <tr>
+            <td><code>**bold**</code> or <code>__bold__</code></td>
+            <td><strong>bold</strong></td>
+            <td>Two asterisks or two underscores</td>
+          </tr>
+          <tr>
+            <td><code>*italic*</code> or <code>_italic_</code></td>
+            <td><em>italic</em></td>
+            <td>One asterisk or one underscore</td>
+          </tr>
+          <tr>
+            <td><code>***bold italic***</code></td>
+            <td><strong><em>bold italic</em></strong></td>
+            <td>Three markers combine both</td>
+          </tr>
+          <tr>
+            <td><code>~~struck~~</code></td>
+            <td><del>struck</del></td>
+            <td>Strikethrough (GFM)</td>
+          </tr>
+          <tr>
+            <td><code>`inline code`</code></td>
+            <td><code>inline code</code></td>
+            <td>Backticks, not quotes</td>
+          </tr>
+          <tr>
+            <td><code>[label](https://example.com)</code></td>
+            <td><a href="https://example.com">label</a></td>
+            <td>Text in brackets, URL in parentheses</td>
+          </tr>
+          <tr>
+            <td><code>![alt text](image.png)</code></td>
+            <td>image</td>
+            <td>An exclamation mark in front of a link</td>
+          </tr>
+          <tr>
+            <td><code>&gt; A quote</code></td>
+            <td>blockquote</td>
+            <td>Greater-than sign plus a space</td>
+          </tr>
+          <tr>
+            <td><code>- item</code> / <code>* item</code></td>
+            <td>bullet list</td>
+            <td>Indent with two spaces to nest</td>
+          </tr>
+          <tr>
+            <td><code>1. item</code></td>
+            <td>numbered list</td>
+            <td>Numbers renumber themselves when you reorder</td>
+          </tr>
+          <tr>
+            <td><code>---</code></td>
+            <td>horizontal rule</td>
+            <td>Three dashes, stars or underscores</td>
+          </tr>
+          <tr>
+            <td><code>[TOC]</code> style anchors</td>
+            <td>linkable headings</td>
+            <td>Headings get automatic <code>#</code> permalinks</td>
+          </tr>
+          <tr>
+            <td><code>\*not a list\*</code></td>
+            <td>*not a list*</td>
+            <td>Backslash escapes Markdown characters</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Full example you can paste</h3>
+      <pre><code># Project notes
+
+Written in **Markdown**, previewed live at [MDPreview Center](https://mdpreview.center.biz.id/).
+
+- First task
+- Second task
+  - Nested detail
+
+1. Ordered one
+2. Ordered two
+
+&gt; Markdown is intended to be as **readable as possible** when written as plain text.</code></pre>
+
+      <h2 id="tables">Markdown tables</h2>
+      <p>
+        Tables are a GitHub Flavored Markdown extension. The dashes build the
+        column widths; you do not have to align them by hand, but keeping them
+        tidy makes the source readable.
+      </p>
+      <pre><code>| Feature        | Supported | Notes                    |
+|----------------|:---------:|--------------------------|
+| Live preview   |    ✅     | Debounced while typing   |
+| Mermaid        |    ✅     | Lazily loaded            |
+| KaTeX math     |    ✅     | Inline $ and block $$    |</code></pre>
+      <p class="note">
+        Use <code>:---</code> for left alignment, <code>---:</code> for right
+        alignment and <code>:---:</code> for centred columns.
+      </p>
+
+      <h2 id="code">Code blocks &amp; syntax highlighting</h2>
+      <p>
+        Wrap code in three backticks and name the language after the opening
+        fence. MDPreview Center highlights more than 30 languages, including
+        JavaScript, TypeScript, Python, Go, Rust, Java, PHP, SQL, HTML, CSS,
+        YAML and JSON.
+      </p>
+      <pre><code>```js
+// Fenced code block with a language tag
+const greeting = "hello, markdown"
+console.log(greeting.toUpperCase())
+```</code></pre>
+      <p>
+        Use a single backtick pair for inline code — <code>`slice(0, 8)`</code>
+        — so identifiers stand out from the prose around them.
+      </p>
+
+      <h2 id="math">Math with KaTeX</h2>
+      <p>
+        Inline equations use single dollar signs, display equations use double
+        dollar signs. Both are rendered by KaTeX, so the output is fast, crisp
+        and searchable.
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <td><code>$E = mc^2$</code></td>
+            <td>Inline equation inside a sentence</td>
+          </tr>
+          <tr>
+            <td><code>$$\sum_{i=1}^{n} i = \frac{n(n+1)}{2}$$</code></td>
+            <td>Centred display equation on its own line</td>
+          </tr>
+          <tr>
+            <td><code>$\sqrt{x^2 + y^2}$</code></td>
+            <td>Roots, fractions and subscripts all work</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="mermaid">Mermaid diagrams</h2>
+      <p>
+        Draw flowcharts, sequence diagrams, class diagrams, gantt charts and
+        more without leaving the document. Tag a fenced block
+        <code>mermaid</code> and it renders as an image in the preview.
+      </p>
+      <pre><code>```mermaid
+flowchart LR
+  A[Write Markdown] --&gt; B{Preview}
+  B --&gt; C[Export PDF]
+  B --&gt; D[Share link]
+```</code></pre>
+      <p class="note">
+        Mermaid is loaded on demand, so documents without diagrams never pay
+        for it.
+      </p>
+
+      <h2 id="footnotes">Footnotes &amp; task lists</h2>
+      <p>
+        Footnotes let you cite a source without breaking the sentence. Mark a
+        reference with <code>^[1]</code> style syntax and define it at the
+        bottom of the document; the preview turns both into a linked note.
+      </p>
+      <pre><code>Markdown was invented in 2004.[^gruber]
+
+[^gruber]: John Gruber, "Markdown: Syntax".</code></pre>
+      <p>
+        Task lists turn bullets into checkboxes — ideal for release notes and
+        README checklists:
+      </p>
+      <pre><code>- [x] Write the document
+- [x] Check the preview
+- [ ] Share the link</code></pre>
+
+      <h2 id="export">Preview, share and export</h2>
+      <p>
+        Writing is only half the job — getting the document out is the other
+        half. MDPreview Center covers every path a Markdown file usually takes.
+      </p>
+
+      <h3>How to convert Markdown to PDF</h3>
+      <ol class="steps">
+        <li>
+          <strong>Open the editor.</strong>
+          <a href="/">MDPreview Center</a> loads with a sample document. Paste
+          your own Markdown over it, or drop a <code>.md</code> file onto the
+          page.
+        </li>
+        <li>
+          <strong>Check the preview.</strong>
+          Headings, tables, code, math and diagrams render live in the right
+          pane, so you catch layout problems before exporting.
+        </li>
+        <li>
+          <strong>Download the PDF.</strong>
+          Open the export menu and choose <em>Download PDF</em>, or press
+          <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd>. The
+          file is generated in your browser with page numbers and a footer —
+          nothing is uploaded.
+        </li>
+      </ol>
+
+      <h3>How to share a Markdown document</h3>
+      <p>
+        Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> +
+        <kbd>K</kbd> to open the share dialog. It offers two kinds of link:
+      </p>
+      <div class="card">
+        <h3>Full link — stays private</h3>
+        <p>
+          The whole document is compressed with LZ-String and placed in the URL
+          <em>fragment</em> after <code>#</code>. Fragments are never sent to a
+          server, so the content leaves your browser only when you paste the
+          link somewhere yourself. Best for private or sensitive documents.
+        </p>
+      </div>
+      <div class="card">
+        <h3>Short link — easy to paste in chat</h3>
+        <p>
+          <em>Create</em> produces a compact <code>/s/abc123</code> URL. Large
+          documents are split into chunks behind a manifest and reassembled on
+          load, with automatic retries when the paste service rate-limits. The
+          compressed text is stored publicly until it expires, so use the full
+          link when the document must stay private.
+        </p>
+      </div>
+
+      <h3>Other exports</h3>
+      <ul>
+        <li><strong>Download .md</strong> — the original source file.</li>
+        <li>
+          <strong>Download .html</strong> — a standalone page with the styles
+          inlined, ready to host anywhere.
+        </li>
+        <li>
+          <strong>Copy rich text</strong> — paste formatted content straight
+          into Google Docs, Word or an email.
+        </li>
+        <li><strong>Print</strong> — browser print dialog, use "Save as PDF".</li>
+      </ul>
+
+      <h2 id="shortcuts">Keyboard shortcuts</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Shortcut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>S</kbd></td>
+            <td>Download the <code>.md</code> file</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></td>
+            <td>Download the PDF</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>K</kbd></td>
+            <td>Open the share dialog</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>Shift</kbd> + <kbd>L</kbd></td>
+            <td>Copy the share link</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>B</kbd></td>
+            <td>Cycle editor / split / preview view</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>J</kbd></td>
+            <td>Toggle dark and light theme</td>
+          </tr>
+          <tr>
+            <td><kbd>Ctrl/Cmd</kbd> + <kbd>V</kbd></td>
+            <td>Paste an image straight into the document</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="faq">Frequently asked questions</h2>
+      <div class="faq">
+        <details open>
+          <summary>What is Markdown?</summary>
+          <p>
+            Markdown is a lightweight markup language invented by John Gruber in
+            2004 for writing formatted text with plain characters. Asterisks make
+            text bold, hash marks make headings, and the same file renders as
+            HTML, PDF, Word or a web page.
+          </p>
+        </details>
+        <details>
+          <summary>Which Markdown flavor does MDPreview Center support?</summary>
+          <p>
+            GitHub Flavored Markdown (GFM) — tables, task lists, strikethrough
+            and autolinks — plus footnotes, anchor links, syntax-highlighted code
+            fences, KaTeX math and Mermaid diagrams.
+          </p>
+        </details>
+        <details>
+          <summary>How do I convert Markdown to PDF?</summary>
+          <p>
+            Open the document in MDPreview Center, then choose <em>Download
+            PDF</em> from the export menu or press <kbd>Ctrl/Cmd</kbd> +
+            <kbd>Shift</kbd> + <kbd>S</kbd>. The PDF is generated in your browser
+            with styling and page numbers.
+          </p>
+        </details>
+        <details>
+          <summary>How do I add a Mermaid diagram to Markdown?</summary>
+          <p>
+            Wrap the diagram source in a fenced code block tagged
+            <code>mermaid</code> — three backticks, the word
+            <code>mermaid</code>, the diagram code, then three closing backticks.
+            The preview renders it as a real diagram.
+          </p>
+        </details>
+        <details>
+          <summary>Is MDPreview Center free?</summary>
+          <p>
+            Yes, free with no account, no usage limits and no watermark on your
+            content. Everything runs in the browser and your writing is saved to
+            localStorage on your own device.
+          </p>
+        </details>
+        <details>
+          <summary>Where is my Markdown stored?</summary>
+          <p>
+            In your browser's localStorage only. Nothing is uploaded while you
+            type. A document only leaves your device when you choose to create a
+            short share link or paste an image.
+          </p>
+        </details>
+      </div>
+
+      <footer class="footer">
+        <nav>
+          <a href="/">Open the editor</a>
+          <a href="/guide.html">Markdown guide</a>
+          <a href="/privacy.html">Privacy policy</a>
+          <a href="https://rifqysaputra.dev">Built by rifqysaputra.dev</a>
+        </nav>
+        <p>
+          MDPreview Center is a free online Markdown editor with live preview,
+          Mermaid diagrams, KaTeX math, syntax highlighting and shareable links.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

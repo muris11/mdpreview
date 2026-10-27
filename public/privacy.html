@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy — What Leaves Your Browser | MDPreview Center</title>
+    <meta
+      name="description"
+      content="MDPreview Center privacy policy: typing and auto-save stay local, share links live in the URL fragment, and only short links and pasted images leave your browser."
+    />
+    <meta
+      name="keywords"
+      content="mdpreview privacy, markdown editor privacy, private markdown editor, offline markdown editor"
+    />
+    <meta name="author" content="Rifqy Saputra — rifqysaputra.dev" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1"
+    />
+    <link rel="canonical" href="https://mdpreview.center.biz.id/privacy.html" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="MDPreview Center" />
+    <meta property="og:url" content="https://mdpreview.center.biz.id/privacy.html" />
+    <meta property="og:title" content="Privacy Policy — MDPreview Center" />
+    <meta
+      property="og:description"
+      content="Exactly what leaves your browser when you use MDPreview Center — and what never does."
+    />
+    <meta property="og:image" content="https://mdpreview.center.biz.id/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Privacy Policy — MDPreview Center" />
+    <meta name="twitter:image" content="https://mdpreview.center.biz.id/og-image.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+
+    <style>
+      :root {
+        --bg: #ffffff;
+        --surface: #f7f8fa;
+        --border: #e4e7ee;
+        --text: #161e30;
+        --muted: #5b6478;
+        --brand: #2563eb;
+        --ok: #15803d;
+        --warn: #b45309;
+        --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0b0f17;
+          --surface: #131926;
+          --border: #232b3d;
+          --text: #e6ecf7;
+          --muted: #94a0b8;
+          --brand: #7aa2ff;
+          --ok: #4ade80;
+          --warn: #fbbf24;
+          --code-bg: #161d2c;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
+        font-size: 16px;
+        line-height: 1.7;
+        -webkit-text-size-adjust: 100%;
+      }
+      a {
+        color: var(--brand);
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .wrap {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 24px 72px;
+      }
+      header.site {
+        border-bottom: 1px solid var(--border);
+        background: var(--surface);
+      }
+      header.site .wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
+      header.site img {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+      }
+      header.site .name {
+        font-weight: 650;
+        font-size: 15px;
+      }
+      header.site nav {
+        margin-left: auto;
+        display: flex;
+        gap: 18px;
+        font-size: 14px;
+      }
+      h1 {
+        font-size: clamp(26px, 4vw, 36px);
+        letter-spacing: -0.025em;
+        margin: 44px 0 6px;
+        line-height: 1.2;
+      }
+      h2 {
+        font-size: 22px;
+        letter-spacing: -0.02em;
+        margin: 42px 0 6px;
+      }
+      p {
+        margin: 12px 0;
+      }
+      .lede {
+        color: var(--muted);
+        font-size: 17px;
+      }
+      .crumbs {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 26px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+        font-size: 14.5px;
+      }
+      th,
+      td {
+        border: 1px solid var(--border);
+        padding: 10px 13px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface);
+        font-weight: 600;
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.87em;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 5px;
+      }
+      .badge {
+        display: inline-block;
+        font-size: 12px;
+        font-weight: 650;
+        padding: 2px 9px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .badge.ok {
+        background: color-mix(in srgb, var(--ok) 14%, transparent);
+        color: var(--ok);
+      }
+      .badge.warn {
+        background: color-mix(in srgb, var(--warn) 16%, transparent);
+        color: var(--warn);
+      }
+      ul {
+        padding-left: 22px;
+      }
+      li {
+        margin: 6px 0;
+      }
+      .footer {
+        border-top: 1px solid var(--border);
+        margin-top: 56px;
+        padding-top: 26px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-bottom: 12px;
+      }
+    </style>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebPage",
+            "@id": "https://mdpreview.center.biz.id/privacy.html#webpage",
+            "url": "https://mdpreview.center.biz.id/privacy.html",
+            "name": "Privacy Policy — MDPreview Center",
+            "description": "What leaves your browser when you use MDPreview Center: local typing and auto-save, fragment-only share links, optional short links and image uploads.",
+            "inLanguage": "en",
+            "datePublished": "2026-10-07",
+            "dateModified": "2026-10-26",
+            "isPartOf": { "@id": "https://mdpreview.center.biz.id/#website" },
+            "breadcrumb": {
+              "@id": "https://mdpreview.center.biz.id/privacy.html#breadcrumb"
+            },
+            "about": "Privacy policy",
+            "publisher": { "@id": "https://mdpreview.center.biz.id/#organization" }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://mdpreview.center.biz.id/privacy.html#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://mdpreview.center.biz.id/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Privacy",
+                "item": "https://mdpreview.center.biz.id/privacy.html"
+              }
+            ]
+          },
+          {
+            "@type": "Organization",
+            "@id": "https://mdpreview.center.biz.id/#organization",
+            "name": "rifqysaputra.dev",
+            "url": "https://rifqysaputra.dev/",
+            "sameAs": ["https://twitter.com/rifqysaputra"]
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site">
+      <div class="wrap">
+        <img src="/logo.png" alt="" width="28" height="28" />
+        <span class="name">MDPreview Center</span>
+        <nav>
+          <a href="/">Editor</a>
+          <a href="/guide.html">Guide</a>
+          <a href="/privacy.html" aria-current="page">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <p class="crumbs"><a href="/">Home</a> › Privacy policy</p>
+
+      <h1>Privacy policy</h1>
+      <p class="lede">
+        MDPreview Center is built so that the default answer to "does this leave
+        my browser?" is <strong>no</strong>. This page states exactly what does,
+        what does not, and the two features that opt you out of that default.
+      </p>
+      <p>
+        Last updated <time datetime="2026-10-26">26 October 2026</time>. The app
+        has no accounts, no server-side database of your documents and no
+        analytics cookies.
+      </p>
+
+      <h2>The short version</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>What you do</th>
+            <th>Status</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Typing, preview, export, auto-save</td>
+            <td><span class="badge ok">Entirely local</span></td>
+            <td>Stored in <code>localStorage</code> on your device only.</td>
+          </tr>
+          <tr>
+            <td>Full share link (<code>#md=…</code>)</td>
+            <td><span class="badge ok">Never sent to a server</span></td>
+            <td>
+              Lives in the URL fragment, which browsers exclude from HTTP
+              requests.
+            </td>
+          </tr>
+          <tr>
+            <td>Short link (<code>/s/…</code>)</td>
+            <td><span class="badge warn">Leaves your browser</span></td>
+            <td>
+              The compressed document is stored on a public paste service for up
+              to 365 days.
+            </td>
+          </tr>
+          <tr>
+            <td>Pasted images</td>
+            <td><span class="badge warn">Leaves your browser</span></td>
+            <td>
+              Forwarded through <code>/api/upload</code> to a public image host;
+              the returned URL is public and embedded in your Markdown.
+            </td>
+          </tr>
+          <tr>
+            <td>Deployed site traffic</td>
+            <td><span class="badge warn">Aggregate stats only</span></td>
+            <td>
+              A Cloudflare Web Analytics beacon loads on the deployed site. It is
+              injected by Cloudflare, is cookieless and is not part of this
+              repository.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>What stays on your device</h2>
+      <ul>
+        <li>
+          <strong>Your document.</strong> The Markdown you write and the title
+          you give it are saved to <code>localStorage</code> under the
+          <code>mdpreview</code> key, debounced so it does not write on every
+          keystroke.
+        </li>
+        <li>
+          <strong>Your preferences.</strong> Theme, view mode, word wrap, scroll
+          sync and split ratio are stored the same way.
+        </li>
+        <li>
+          <strong>Nothing else.</strong> There is no account, no profile, no
+          server-side session and no identifier attached to you.
+        </li>
+      </ul>
+      <p>
+        Clearing your browser's site data removes the document permanently —
+        there is no copy elsewhere to delete.
+      </p>
+
+      <h2>How share links work</h2>
+      <p>
+        The <strong>full link</strong> serialises your document, compresses it
+        with LZ-String and places it after <code>#</code> in the URL. The
+        fragment is never included in an HTTP request, so opening or hosting the
+        link does not transmit the content to us — only to whoever you send it
+        to.
+      </p>
+      <p>
+        The <strong>short link</strong> is different by design. To give you a URL
+        short enough for chat apps, the compressed document is uploaded to
+        <a href="https://dpaste.com" rel="noopener noreferrer nofollow"
+          >dpaste.com</a
+        >, a free paste service, and expires after 365 days. Treat short links
+        like any other public paste: do not use them for secrets.
+      </p>
+
+      <h2>Pasted images</h2>
+      <p>
+        Browsers cannot upload directly to free image hosts because of CORS, so
+        pasted images are posted to this site's own <code>/api/upload</code>
+        function, which forwards the file to
+        <a href="https://catbox.moe" rel="noopener noreferrer nofollow"
+          >catbox.moe</a
+        >
+        and returns a public URL. The upload endpoint validates the file type,
+        rejects anything larger than about 4.2&nbsp;MB of base64 data and does
+        not keep a copy.
+      </p>
+      <p>
+        If your images are sensitive, host them yourself and paste the resulting
+        URLs into your Markdown instead.
+      </p>
+
+      <h2>Cookies and analytics</h2>
+      <p>
+        MDPreview Center sets no cookies of its own. The deployed site loads a
+        Cloudflare Web Analytics beacon for aggregate page-view counts; it is
+        cookieless, does not identify individuals and is not part of this
+        repository's code.
+      </p>
+
+      <h2>Third parties</h2>
+      <ul>
+        <li>
+          <a href="https://dpaste.com" rel="noopener noreferrer nofollow"
+            >dpaste.com</a
+          >
+          — stores short-link documents until they expire.
+        </li>
+        <li>
+          <a href="https://catbox.moe" rel="noopener noreferrer nofollow"
+            >catbox.moe</a
+          >
+          — hosts pasted images.
+        </li>
+        <li>
+          Google Fonts — serves the Inter and JetBrains Mono web fonts.
+        </li>
+        <li>
+          Cloudflare — serves the site and, on the deployed version, the
+          analytics beacon.
+        </li>
+      </ul>
+      <p>
+        Each receives only what is needed to do its job. We do not sell, rent or
+        share personal data, because we do not collect any.
+      </p>
+
+      <h2>Changes to this policy</h2>
+      <p>
+        If the app ever starts collecting something new, this page will say so
+        before it ships. Substantive edits are dated above.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions about this policy can go to the author,
+        <a href="https://rifqysaputra.dev">Rifqy Saputra</a>, via
+        <a href="https://twitter.com/rifqysaputra">@rifqysaputra</a>.
+      </p>
+
+      <footer class="footer">
+        <nav>
+          <a href="/">Open the editor</a>
+          <a href="/guide.html">Markdown guide</a>
+          <a href="/privacy.html">Privacy policy</a>
+        </nav>
+        <p>
+          MDPreview Center — a free online Markdown editor with live preview,
+          Mermaid diagrams, KaTeX math and shareable links.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -5,11 +5,30 @@
 >
   <url>
     <loc>https://mdpreview.center.biz.id/</loc>
+    <lastmod>2026-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://mdpreview.center.biz.id/og-image.png</image:loc>
-      <image:title>MDPreview Center — Markdown editor with live preview</image:title>
+      <image:title>MDPreview Center — Markdown editor online with live preview</image:title>
+      <image:caption>Write Markdown and see the formatted result instantly, with Mermaid diagrams, KaTeX math and syntax highlighting.</image:caption>
     </image:image>
+  </url>
+  <url>
+    <loc>https://mdpreview.center.biz.id/guide.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://mdpreview.center.biz.id/og-image.png</image:loc>
+      <image:title>Markdown cheat sheet and syntax guide</image:title>
+      <image:caption>Complete Markdown syntax reference: headings, tables, code, math, Mermaid diagrams, sharing and PDF export.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://mdpreview.center.biz.id/privacy.html</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>

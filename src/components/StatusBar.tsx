@@ -28,6 +28,20 @@ export function StatusBar({ stats, savedLabel }: StatusBarProps) {
       </span>
 
       <span className="ml-auto flex min-w-0 items-center justify-end gap-4">
+        <span className="hidden items-center gap-3 md:flex">
+          <a
+            href="/guide.html"
+            className="shrink-0 text-ink-400 transition-colors hover:text-brand-600 dark:text-ink-500 dark:hover:text-brand-300"
+          >
+            Markdown guide
+          </a>
+          <a
+            href="/privacy.html"
+            className="shrink-0 text-ink-400 transition-colors hover:text-brand-600 dark:text-ink-500 dark:hover:text-brand-300"
+          >
+            Privacy
+          </a>
+        </span>
         <span className="min-w-0 truncate text-ink-400 dark:text-ink-500">
           {savedLabel}
         </span>
