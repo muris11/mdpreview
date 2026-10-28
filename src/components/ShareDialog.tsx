@@ -240,6 +240,7 @@ function ShareDialogContent({
               <input
                 readOnly
                 value={shortUrl}
+                aria-label="Short link"
                 onFocus={(e) => e.currentTarget.select()}
                 className="h-10 w-full min-w-0 rounded-lg border border-ink-200 bg-white px-3 font-mono text-xs text-ink-700 outline-none dark:border-ink-700 dark:bg-ink-950 dark:text-ink-200"
               />
@@ -285,6 +286,7 @@ function ShareDialogContent({
           <input
             readOnly
             value={url}
+            aria-label="Full share link"
             onFocus={(e) => e.currentTarget.select()}
             className="h-10 w-full min-w-0 rounded-lg border border-ink-200 bg-ink-50 px-3 font-mono text-xs text-ink-600 outline-none dark:border-ink-700 dark:bg-ink-950 dark:text-ink-300"
           />
