@@ -14,12 +14,18 @@ export function ToastStack({
   onDismiss: (id: number) => void
 }) {
   return (
-    <div className="no-print pointer-events-none fixed bottom-5 left-1/2 z-200 flex w-full max-w-sm -translate-x-1/2 flex-col items-center gap-2 px-4">
+    // The live region has to exist before the messages arrive inside it, so it
+    // lives on the (always mounted) container rather than on each toast —
+    // a node inserted together with its text is skipped by several readers.
+    <div
+      className="no-print pointer-events-none fixed bottom-5 left-1/2 z-200 flex w-full max-w-sm -translate-x-1/2 flex-col items-center gap-2 px-4"
+      role="status"
+      aria-live="polite"
+    >
       {toasts.map((toast) => (
         <div
           key={toast.id}
           className="card pointer-events-auto flex w-full items-center gap-3 px-3.5 py-2.5 shadow-xl"
-          role="status"
         >
           {toast.tone === 'info' ? (
             <Info size={17} className="shrink-0 text-brand-500" />
