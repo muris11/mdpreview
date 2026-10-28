@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ToastMessage } from '../components/ToastStack'
 
+/** Newest wins: a burst of notifications must not cover the editor. */
+const MAX_VISIBLE = 3
+
 export function useToasts() {
   const [toasts, setToasts] = useState<ToastMessage[]>([])
   const counter = useRef(0)
@@ -23,7 +26,7 @@ export function useToasts() {
   const notify = useCallback(
     (text: string, tone: ToastMessage['tone'] = 'success') => {
       const id = counter.current++
-      setToasts((list) => [...list, { id, text, tone }])
+      setToasts((list) => [...list, { id, text, tone }].slice(-MAX_VISIBLE))
       const timer = window.setTimeout(() => {
         timers.current.delete(timer)
         dismiss(id)
