@@ -25,30 +25,45 @@ function read<T>(key: string, fallback: T): T {
   }
 }
 
-function write(key: string, value: unknown): void {
+/**
+ * Returns false when the browser refused the write — normally a full quota.
+ * Callers that persist the document care; the settings below do not.
+ */
+function write(key: string, value: unknown): boolean {
   try {
     localStorage.setItem(key, JSON.stringify(value))
+    return true
   } catch {
-    /* storage full or unavailable — ignore */
+    return false
   }
 }
 
 export const storage = {
   loadDoc: (): DocState | null => read<DocState | null>(KEYS.doc, null),
-  saveDoc: (doc: DocState) => write(KEYS.doc, doc),
+  saveDoc: (doc: DocState): boolean => write(KEYS.doc, doc),
 
   loadTheme: (): Theme | null => read<Theme | null>(KEYS.theme, null),
-  saveTheme: (theme: Theme) => write(KEYS.theme, theme),
+  saveTheme: (theme: Theme) => {
+    write(KEYS.theme, theme)
+  },
 
   loadView: (): ViewMode => read<ViewMode>(KEYS.view, 'split'),
-  saveView: (view: ViewMode) => write(KEYS.view, view),
+  saveView: (view: ViewMode) => {
+    write(KEYS.view, view)
+  },
 
   loadSync: (): boolean => read<boolean>(KEYS.sync, true),
-  saveSync: (sync: boolean) => write(KEYS.sync, sync),
+  saveSync: (sync: boolean) => {
+    write(KEYS.sync, sync)
+  },
 
   loadWrap: (): boolean => read<boolean>(KEYS.wrap, true),
-  saveWrap: (wrap: boolean) => write(KEYS.wrap, wrap),
+  saveWrap: (wrap: boolean) => {
+    write(KEYS.wrap, wrap)
+  },
 
   loadSplit: (): number => read<number>(KEYS.split, 50),
-  saveSplit: (split: number) => write(KEYS.split, split),
+  saveSplit: (split: number) => {
+    write(KEYS.split, split)
+  },
 }
