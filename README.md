@@ -93,7 +93,7 @@ document.
 
 | | |
 | --- | --- |
-| ✍️ Typing, preview, export, auto-save | Entirely local — `localStorage` only, nothing is sent anywhere. |
+| ✍️ Typing, preview, export, auto-save | Entirely local — `localStorage` only, nothing is sent anywhere. If the browser refuses the write (quota exceeded) the status bar shows **Not saved** rather than claiming success. |
 | 🔗 Full share link (`#md=…`) | Stays in the URL fragment, which browsers never include in an HTTP request. |
 | ⚡ Short link (`/s/…`) | The compressed document is stored on dpaste.com for up to 365 days. |
 | 🖼️ Pasted images | Sent to this app's own `/api/upload` function, which forwards the file to catbox.moe and returns a **public** URL embedded in your Markdown. |
