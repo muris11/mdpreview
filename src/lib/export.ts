@@ -20,6 +20,11 @@ const HLJS_DARK_CSS = `
 .hljs-deletion{color:#ffdcd7;background-color:#67060c}
 `
 
+/** Keeps a document title from breaking the exported document's markup. */
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (char) => `&#${char.charCodeAt(0)};`)
+}
+
 /**
  * Wraps rendered HTML into a standalone document with inlined styles so the
  * exported file looks right when opened offline. Includes an attribution
@@ -42,7 +47,7 @@ export function buildStandaloneHtml(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${title || 'Document'}</title>
+<title>${escapeHtml(title) || 'Document'}</title>
 <style>
 ${katexCss}
 ${hljsThemeLight}
