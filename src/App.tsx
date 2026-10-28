@@ -89,6 +89,10 @@ export default function App() {
   const [zen, setZen] = useState(false)
   const [shareOpen, setShareOpen] = useState(false)
   const [savedAt, setSavedAt] = useState<Date | null>(null)
+  /** True once the browser refuses the autosave write (usually a full quota). */
+  const [saveFailed, setSaveFailed] = useState(false)
+  /** Keeps the storage-full toast from firing on every keystroke. */
+  const announcedSaveFailure = useRef(false)
   /** True while a `/s/<id>` document is still downloading. */
   const [loadingShort, setLoadingShort] = useState(initialShortId !== null)
 
@@ -108,11 +112,18 @@ export default function App() {
     // Don't clobber the local copy while a short link is still loading.
     if (loadingShort) return
     const timer = window.setTimeout(() => {
-      storage.saveDoc({ content, title })
-      setSavedAt(new Date())
+      const ok = storage.saveDoc({ content, title })
+      setSaveFailed(!ok)
+      if (ok) {
+        announcedSaveFailure.current = false
+        setSavedAt(new Date())
+      } else if (!announcedSaveFailure.current) {
+        announcedSaveFailure.current = true
+        notify('Storage is full — this document is not being saved', 'info')
+      }
     }, 500)
     return () => window.clearTimeout(timer)
-  }, [content, title, loadingShort])
+  }, [content, title, loadingShort, notify])
 
   // Dynamic SEO metadata for crawlers and social sharing. Only documents that
   // arrived from a share link are indexable at their own URL; a locally
@@ -382,9 +393,11 @@ export default function App() {
     return () => window.removeEventListener('keydown', handler)
   }, [downloadMarkdown, exportPdf, copyShareLink])
 
-  const savedLabel = savedAt
-    ? `Saved locally at ${savedAt.toLocaleTimeString()}`
-    : 'Changes save automatically'
+  const savedLabel = saveFailed
+    ? 'Not saved — browser storage is full'
+    : savedAt
+      ? `Saved locally at ${savedAt.toLocaleTimeString()}`
+      : 'Changes save automatically'
 
   return (
     <div
