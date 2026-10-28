@@ -10,6 +10,10 @@ import { handleUpload } from './api/upload.ts'
  * `npm run preview` and the deployed site.
  */
 function uploadApi(): Plugin {
+  // Vercel rejects oversized bodies before the function ever runs; mirror that
+  // here so a bad request cannot be buffered into memory during development.
+  const MAX_BODY_CHARS = 4_500_000
+
   const handle = (request: IncomingMessage, response: ServerResponse) => {
     if (request.method !== 'POST') {
       response.statusCode = 405
@@ -19,14 +23,26 @@ function uploadApi(): Plugin {
     }
 
     let raw = ''
+    let tooLarge = false
     request.on('data', (chunk: Buffer) => {
+      if (tooLarge) return
       raw += chunk.toString()
+      if (raw.length > MAX_BODY_CHARS) {
+        tooLarge = true
+        raw = ''
+      }
     })
     request.on('error', () => {
       response.statusCode = 400
       response.end('{"error":"Bad request"}')
     })
     request.on('end', () => {
+      if (tooLarge) {
+        response.statusCode = 413
+        response.setHeader('Content-Type', 'application/json')
+        response.end('{"error":"Payload too large"}')
+        return
+      }
       let body: unknown
       try {
         body = JSON.parse(raw)
