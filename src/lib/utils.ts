@@ -35,7 +35,9 @@ export function download(filename: string, content: string, type: string) {
   document.body.appendChild(link)
   link.click()
   link.remove()
-  URL.revokeObjectURL(url)
+  // Revoking synchronously cancels the download in some browsers, so let the
+  // navigation start first.
+  window.setTimeout(() => URL.revokeObjectURL(url), 0)
 }
 
 export function slugifyFilename(name: string, fallback = 'document'): string {
